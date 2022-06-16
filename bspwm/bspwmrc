@@ -1,0 +1,36 @@
+#! /bin/sh
+
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+xmodmap $HOME/.Xmodmap
+fcixt &
+picom --experimental-backends &
+dunst &
+ln -f -t ~/.config/polybar ~/.config/polybar/polybar-themes/san/*
+~/.config/polybar/launch.sh
+wmname LG3D
+
+
+ws=0
+for mt in $(polybar --list-monitors | cut -f 1 -d ":");do
+  bspc monitor $mt -d $((ws++)) $((ws++)) $((ws++)) $((ws++)) $((ws++))
+done
+# bspc monitor eDP-1 1 2 3 4 5 6 7 8 9 0
+
+bspc config border_width         0
+bspc config window_gap          5
+bspc config top_paddig         -10
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      false
+bspc config bottom_padding      0
+
+
+
+bspc rule -a synapse state=floating follow=on
+bspc rule -a networkmanger_dmenu state=floating follow=on
+bspc rule -a fcitx state=floating follow=on
+bspc rule -a Nightly state=tiled  follow=on
+
+feh --bg-fill $HOME/picture/wallpapers/Yosemite-Color-Block.png &

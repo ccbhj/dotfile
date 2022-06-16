@@ -1,0 +1,79 @@
+{
+  "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "args": ["start"],
+      "filetypes": ["sh"],
+      "ignoredRootPaths": ["~"]
+    },
+    // "ccls": {
+    //   "command": "ccls",
+    //   "filetypes": ["c", "cpp", "objc", "objcpp"],
+    //   "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+    //   "initializationOptions": {
+    //     "cache": {
+    //       "directory": "/tmp/ccls"
+    //     },
+    //     "highlight": {
+    //       "lsRanges" : true 
+    //     },
+    //     "client": {
+    //       "snippetSupport": true
+    //     }
+    //   }
+    // },
+  },
+  "list.normalMappings": {
+    "t": "action:tabe",
+    "v": "action:vsplit",
+    "s": "action:split",
+    "p": "action:preview"
+  },
+  "list.insertMappings": {
+    "<C-t>": "action:tabe",
+    "<C-v>": "action:vsplit",
+    "<C-s>": "action:split",
+    "<C-p>": "action:preview"
+  },
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.minTriggerInputLength": 2,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.snippetIndicator": "►",
+  "suggest.enablePreview": true,
+  "suggest.noselect": true,
+
+  "coc.preferences.previewAutoClose": true,
+  "coc.source.buffer.enable": true,
+  "coc.source.buffer.priority": 1,
+  "coc.preferences.formatOnSaveFiletypes": ["css", "html"],
+  "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.hoverTarget": "float",
+  "coc.preferences.floatActions": true,
+  "coc.preferences.enableFloatHighlight":true,
+  "coc.preferences.colorSupport": true,
+
+  "python.jediEnabled": false,
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+
+
+  "snippets.ultisnips.enable": true,
+  "snippets.editSnippetsCommand": "tabedit",
+  "snippets.extends": {
+    "cpp": ["c"]
+  },
+
+  "java.home": "/usr/lib/jvm/java-11-openjdk",
+  "java.format.enabled": true,
+  "java.format.onType.enabled": true,
+  "java.format.comments.enabled": true,
+  "java.referencesCodeLens.enabled": true,
+  "java.import.maven.enabled": true,
+  "java.configuration.maven.userSettings": "~/.m2/settings.xml",
+  "java.signatureHelp.enabled": true,
+
+  "clangd.path": "/usr/bin/clangd",
+  "clangd.enabled": true,
+  // "clangd.semanticHighlighting": true
+
+}
