@@ -1,9 +1,8 @@
 let g:polyglot_disabled = ['c', 'cpp', 'vim-lsp-cxx-highlight.plugin']
 set nocompatible
 call plug#begin('~/.vim/plugged')
-Plug 'fatih/vim-go',   { 'for': 'go'}
+" Plug 'fatih/vim-go',   { 'for': 'go'}
 " Plug 'rust-lang/rust.vim', {'for': 'rs'}
-" Plug 'majutsushi/tagbar' 
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh', 'for': 'go'}
@@ -13,8 +12,8 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'plasticboy/vim-markdown', {'for': 'md'}
 " Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'vim-airline/vim-airline'
-" Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 
 "" Plug 'pangloss/vim-javascript'
 " Plug 'jackguo380/vim-lsp-cxx-highlight', {'for': ['c', 'cpp']}
@@ -23,22 +22,25 @@ Plug 'vim-airline/vim-airline'
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
-" Plug 'preservim/tagbar'
+Plug 'preservim/tagbar'
 " Plug 'nathanaelkane/vim-indent-guides'
 Plug 'Yggdroot/indentLine'
 " Plug 'lukas-reineke/indent-blankline.nvim'
-
+Plug 'cespare/vim-toml', { 'branch': 'main' }
 
 
 "" color scheme
 Plug 'morhetz/gruvbox' 
 Plug 'joshdick/onedark.vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'olimorris/onedarkpro.nvim'
 
 Plug 'sheerun/vim-polyglot' 
 Plug 'vim-scripts/AnsiEsc.vim'
 Plug 'rafamadriz/friendly-snippets'
 " Plug 'SirVer/ultisnips'
+Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+
 
 " coc.vim
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -52,14 +54,19 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'matveyt/neoclip'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 Plug 'nvim-telescope/telescope-project.nvim'
 Plug 'AckslD/nvim-neoclip.lua'
 Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'dhruvmanila/telescope-bookmarks.nvim'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'tom-anders/telescope-vim-bookmarks.nvim'
 Plug 'akinsho/toggleterm.nvim'
+Plug 'folke/twilight.nvim'
+
+" git 
+" Plug 'tanvirtin/vgit.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'sindrets/diffview.nvim'
+
 
 " nvim_lsp
 Plug 'neovim/nvim-lspconfig'
@@ -75,15 +82,30 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'quangnguyen30192/cmp-nvim-tags'
 " Plug 'glepnir/lspsaga.nvim'
-Plug 'tami5/lspsaga.nvim', {'branch' : 'nvim51'}
+" Plug 'tami5/lspsaga.nvim', {'branch' : 'nvim51'}
 
 
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'akinsho/bufferline.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'branch': '0.5-compat', 'do': ':TSUpdate'} 
+Plug 'romgrk/nvim-treesitter-context'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'p00f/nvim-ts-rainbow'
 
 Plug 'voldikss/vim-translator'
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+" Plug 'ray-x/guihua.lua' " --float term, gui support
+Plug 'ray-x/go.nvim'
+
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
 call plug#end() " required
+
+set completeopt=menu,menuone,noselect
 
 " Put your non-Plugin stuff after this line
 "常规配置
@@ -198,35 +220,6 @@ nnoremap <C-l> <C-w>l
 
 " Python 文件的一般设置，比如不要 tab 等
 autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
-
-
-"-----------------------------------------------------------------
-" plugin - vista
-
-" let g:vista_default_executive  = 'ctags'
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-let g:vista_fzf_preview = ["right:40%"]
-
-let g:vista#renderer#enable_icon = 1
-let g:vista_sidebar_width = 50
-let g:vista_executive_for = {
-   \ 'go': 'nvim_lsp',
-   \ 'cpp': 'nvim_lsp',
-   \ 'c': 'nvim_lsp',
-   \ 'python': 'nvim_lsp'
-   \ }
-nmap <F8> :Vista!! <CR>
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
-
-set statusline+=%{NearestMethodOrFunction()}
-
-" By default vista.vim never run if you don't call it explicitly.
-"
-" If you want to show the nearest function in your statusline automatically,
-" you can add the following line to your vimrc
-" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 
 "-----------------------------------------------------------------
@@ -365,45 +358,8 @@ inoremap <silent><s-tab> <ESC>:tabnext<CR>
 " map <F7> :term <CR>
 " set shell=/usr/bin/zsh
 
-" tagbar config 
-" nmap <F8> :TagbarToggle<CR>
-" let g:tagbar_type_go = {
-"     \ 'ctagstype': 'go',
-"     \ 'kinds' : [
-"         \'p:package',
-"         \'f:function',
-"         \'v:variables',
-"         \'t:type',
-"         \'c:const'
-"     \]
-" \}
-" let g:tagbar_type_snippets = {
-"     \ 'ctagstype' : 'snippets',
-"     \ 'kinds' : [
-"         \ 's:snippets',
-"     \ ]
-" \ }
-" 
-" let g:tagbar_type_css = {
-" \ 'ctagstype' : 'Css',
-"     \ 'kinds'     : [
-"         \ 'c:classes',
-"         \ 's:selectors',
-"         \ 'i:identities'
-"     \ ]
-" \ }
-" 
-" let g:tagbar_type_markdown = {
-"     \ 'ctagstype' : 'markdown',
-"     \ 'kinds' : [
-"         \ 'h:Heading_L1',
-"         \ 'i:Heading_L2',
-"         \ 'k:Heading_L3'
-"     \ ]
-" \ }
 
 let g:airline#extensions#tagbar#enabled = 0
-
 " airline
 let g:airline_detect_spell=1
 
@@ -432,10 +388,10 @@ if (empty($TMUX))
     set termguicolors
   endif
 endif
-let g:airline_theme='onedark'
+"let g:airline_theme='onedark'
 let g:onedark_terminal_italics=1
 " colorscheme dracula
-colorscheme onedark
+" colorscheme onedark
 " colorscheme gruvbox
 
 " Yggdroot/indentLine
@@ -460,7 +416,6 @@ let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'``
 source ~/.config/vim/nvim_lsp.vim
 :luafile ~/.config/vim/nvim_term.lua
 :luafile ~/.config/vim/nvim_cmp.lua
-:luafile ~/.config/vim/nvim_treesitter.lua
 :luafile ~/.config/vim/luasnip.lua
 :luafile ~/.config/vim/nvim_lsp_server.lua
 source ~/.config/vim/telescope.vim
@@ -469,11 +424,21 @@ source ~/.config/vim/telescope.vim
 :luafile ~/.config/vim/nvim-tree.lua
 :luafile ~/.config/vim/lsp_signature_help.lua
 " :luafile ~/.config/vim/indent_blankline.lua
-
+" :luafile ~/.config/vim/one_dark.lua
+:luafile ~/.config/vim/treesitter.lua
+:luafile ~/.config/vim/x-ray_go.lua
+" :luafile ~/.config/vim/vgit.lua
+:luafile ~/.config/vim/gitsigns.lua
+:source ~/.config/vim/translator.vim
+:luafile ~/.config/vim/diffview.lua
+" :source ~/.config/vim/tagbar.vim
+:source ~/.config/vim/vista.vim
+:source ~/.config/vim/lightline.vim
 
 nnoremap <silent><leader>t <Cmd>exe v:count1 . "ToggleTerm  size=15 dir=. direction=horizontal"<CR>
 "  vim-bookmarks 
 source ~/.config/vim/vim_bookmark.vim
 " vim-go
-source ~/.config/vim/vim_go.vim
-source ~/.config/vim/translator.vim
+" source ~/.config/vim/vim_go.vim
+"
+:luafile ~/.config/vim/nvim_catppuccin.lua

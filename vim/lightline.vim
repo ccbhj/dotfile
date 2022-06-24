@@ -39,3 +39,4 @@ function! LightlineFiletype()
   return winwidth(0) > 60 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
 endfunction
 
+let g:lightline = {'colorscheme': 'catppuccin'}
