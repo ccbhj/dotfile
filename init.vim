@@ -101,7 +101,9 @@ Plug 'theHamsta/nvim-dap-virtual-text'
 " Plug 'ray-x/guihua.lua' " --float term, gui support
 Plug 'ray-x/go.nvim'
 
-Plug 'mileszs/ack.vim'
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+Plug 'simrat39/symbols-outline.nvim'
+Plug 'romgrk/barbar.nvim'
 
 call plug#end() " required
 
@@ -388,7 +390,7 @@ if (empty($TMUX))
     set termguicolors
   endif
 endif
-let g:airline_theme='onedark'
+"let g:airline_theme='onedark'
 let g:onedark_terminal_italics=1
 " colorscheme dracula
 " colorscheme onedark
@@ -420,11 +422,11 @@ source ~/.config/vim/nvim_lsp.vim
 :luafile ~/.config/vim/nvim_lsp_server.lua
 source ~/.config/vim/telescope.vim
 " source ~/.config/vim/lsp_saga.vim
-:luafile ~/.config/vim/bufferline.lua
+" :luafile ~/.config/vim/bufferline.lua
 :luafile ~/.config/vim/nvim-tree.lua
 :luafile ~/.config/vim/lsp_signature_help.lua
 " :luafile ~/.config/vim/indent_blankline.lua
-:luafile ~/.config/vim/one_dark.lua
+" :luafile ~/.config/vim/one_dark.lua
 :luafile ~/.config/vim/treesitter.lua
 :luafile ~/.config/vim/x-ray_go.lua
 " :luafile ~/.config/vim/vgit.lua
@@ -440,3 +442,7 @@ nnoremap <silent><leader>t <Cmd>exe v:count1 . "ToggleTerm  size=15 dir=. direct
 source ~/.config/vim/vim_bookmark.vim
 " vim-go
 " source ~/.config/vim/vim_go.vim
+"
+:luafile ~/.config/vim/nvim_catppuccin.lua
+:luafile ~/.config/vim/symbol_outline.lua
+:luafile ~/.config/vim/barbar.lua
