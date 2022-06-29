@@ -86,7 +86,6 @@ Plug 'quangnguyen30192/cmp-nvim-tags'
 
 
 Plug 'kyazdani42/nvim-tree.lua'
-Plug 'akinsho/bufferline.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'branch': '0.5-compat', 'do': ':TSUpdate'} 
@@ -104,6 +103,7 @@ Plug 'ray-x/go.nvim'
 Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 Plug 'simrat39/symbols-outline.nvim'
 Plug 'romgrk/barbar.nvim'
+" Plug 'akinsho/bufferline.nvim'
 
 call plug#end() " required
 
