@@ -14,6 +14,9 @@
   #TERM: screen-256color
   #LC_ALL: "en_US.UTF-8"
 
+env:
+  TERM: xterm-256color
+
 window:
   # Window dimensions (changes require restart)
   #
@@ -36,11 +39,11 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 10
-    y: 10
+    x: 2
+    y: 0
 
   # Spread additional padding evenly around the terminal content.
-  dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -178,46 +181,46 @@ draw_bold_text_with_bright_colors: true
 # ...
 
 # Colors (Wombat)
-colors:
-  # Default colors
-  primary:
-    background: '#303446'
-    foreground: '#d9e0ee'
-
-  # Normal colors
-  normal:
-    black:   '#282c34'
-    red:     '#e06c75'
-    green:   '#98c379'
-    yellow:  '#e5c07b'
-    blue:    '#61afef'
-    magenta: '#c678dd'
-    cyan:    '#56b6c2'
-    # white:   '#dcdfe4'
-    white:   '#ABB2BF'
-
-  # Bright colors
-  bright:
-    black:   '#282c34'
-    red:     '#e06c75'
-    green:   '#98c379'
-    yellow:  '#e5c07b'
-    blue:    '#61afef'
-    magenta: '#c678dd'
-    cyan:    '#56b6c2'
-    # white:   '#dcdfe4'
-    white:   '#ABB2BF'
-    
-
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '0xff00ff' }`
-  #
-  indexed_colors: []
+#colors:
+#  # Default colors
+#  primary:
+#    background: '#303446'
+#    foreground: '#d9e0ee'
+#
+#  # Normal colors
+#  normal:
+#    black:   '#282c34'
+#    red:     '#e06c75'
+#    green:   '#98c379'
+#    yellow:  '#e5c07b'
+#    blue:    '#61afef'
+#    magenta: '#c678dd'
+#    cyan:    '#56b6c2'
+#    # white:   '#dcdfe4'
+#    white:   '#ABB2BF'
+#
+#  # Bright colors
+#  bright:
+#    black:   '#282c34'
+#    red:     '#e06c75'
+#    green:   '#98c379'
+#    yellow:  '#e5c07b'
+#    blue:    '#61afef'
+#    magenta: '#c678dd'
+#    cyan:    '#56b6c2'
+#    # white:   '#dcdfe4'
+#    white:   '#ABB2BF'
+#    
+#
+#  # Indexed Colors
+#  #
+#  # The indexed colors include all colors from 16 to 256.
+#  # When these are not set, they're filled with sensible defaults.
+#  #
+#  # Example:
+#  #   `- { index: 16, color: '0xff00ff' }`
+#  #
+#  indexed_colors: []
 
 # Visual Bell
 #
@@ -340,7 +343,9 @@ live_config_reload: true
 shell:
   program: /bin/zsh
   args:
-    - --login
+    - -l
+    - -c
+    - "tmux attach || tmux"
 
 # Startup directory
 #
@@ -612,3 +617,10 @@ key_bindings:
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                      }
   - { key: NumpadEnter,             chars: "\n"                              }
   - { key: Space,    mods: Control, chars: "\x10"                            }
+
+import:
+# uncomment the flavour you want below:
+  # - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
+  # - ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
+  - ~/.config/alacritty/catppuccin/catppuccin-frappe.yml
+  #  ~/.config/alacritty/catppuccin/catppuccin-latte.yml
