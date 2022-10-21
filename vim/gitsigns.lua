@@ -63,3 +63,22 @@ require('gitsigns').setup {
     enable = false
   },
 }
+
+local set_nmap = function (key, cmd) 
+    vim.api.nvim_set_keymap(
+        'n',
+        key,
+        cmd,
+        {noremap = true, silent = true}
+    )
+end
+
+set_nmap("dh", ":diffget local <CR>")
+set_nmap("dl", ":diffget remote <CR>")
+set_nmap("<leader>hl", ":Gitsigns setloclist<CR>")
+set_nmap("<leader>hs", ":Gitsigns stage_hunk<CR>")
+set_nmap("<leader>hS", ":Gitsigns undo_stage_hunk<CR>")
+set_nmap("<leader>hr", ":Gitsigns reset_hunk<CR>")
+set_nmap("<leader>hR", ":Gitsigns reset_buffer<CR>")
+set_nmap("<leader>hp", ":Gitsigns preview_hunk<CR>")
+set_nmap("<leader>hb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')

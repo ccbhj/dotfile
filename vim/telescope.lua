@@ -1,4 +1,3 @@
-lua << EOF
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('project')
 -- require('telescope').load_extension('coc')
@@ -107,47 +106,48 @@ keys = {
    },
 })
 
-vim.api.nvim_set_keymap(
-    'n',
-    '<space>y',
-    ':Telescope neoclip<CR>',
-    {noremap = true, silent = true}
-)
-vim.api.nvim_set_keymap(
-    'n',
-    '<space>p',
-    ":lua require'telescope'.extensions.project.project{}<CR>",
-    {noremap = true, silent = true}
-)
+local set_nmap = function (key, cmd) 
+    vim.api.nvim_set_keymap(
+        'n',
+        key,
+        cmd,
+        {noremap = true, silent = true}
+    )
+end
 
-EOF
+set_nmap('<space>y', ':telescope neoclip<cr>')
+set_nmap('<space>p', ":lua require'telescope'.extensions.project.project{}<cr>")
+set_nmap('<space>t', ":lua require'telescope.builtin'.tags({only_current_buffer = true, preview_width=0.5})<cr>")
+set_nmap('<space>T', ":lua require'telescope.builtin'.tags{}<cr>")
 
-
-nnoremap <silent> <space>t :lua require'telescope.builtin'.tags({only_current_buffer = true, preview_width=0.5})<cr>
-nnoremap <silent> <space>T :lua require'telescope.builtin'.tags{}<cr>
-nnoremap <silent> <space>F :lua require'telescope.builtin'.file_browser{}<cr>
-nnoremap <silent> <space>f :lua require'telescope.builtin'.find_files{}<cr>
-nnoremap <silent> <space>g :lua require'telescope.builtin'.grep_string{}<cr>
-nnoremap <silent> <space>G :lua require'telescope.builtin'.live_grep{}<cr>
-
-nnoremap <silent> <space>j :lua require'telescope.builtin'.jumplist{}<cr>
-nnoremap <silent> <space>r :lua require'telescope.builtin'.registers{}<cr>
-nnoremap <silent> <space>h :lua require'telescope.builtin'.search_history{}<cr>
-nnoremap <silent> <space>H :lua require'telescope.builtin'.command_history{}<cr>
-nnoremap <silent> <space>m :lua require'telescope.builtin'.marks{}<cr>
-
-nnoremap <silent> <space>B :lua require'telescope.builtin'.git_branches{}<cr>
-nnoremap <silent> <space>v :lua require'telescope.builtin'.git_files{}<cr>
-nnoremap <silent> <space>c :lua require'telescope.builtin'.git_commits{}<cr>
-nnoremap <silent> <space>C :lua require'telescope.builtin'.git_bcommits{}<cr>
-nnoremap <silent> <space>k :lua require'telescope.builtin'.git_stash{}<cr>
+-- file
+set_nmap('<space>F', ":lua require'telescope.builtin'.file_browser{}<cr>")
+set_nmap('<space>F', ":lua require'telescope.builtin'.find_files{}<cr>")
+set_nmap('<space>g', ":lua require'telescope.builtin'.grep_string{}<cr>")
+set_nmap('<space>G', ":lua require'telescope.builtin'.live_grep{}<cr>")
+set_nmap('<space>j', ":lua require'telescope.builtin'.jumplist{}<cr>")
+set_nmap('<space>r', ":lua require'telescope.builtin'.registers{}<cr>")
+set_nmap('<space>a', ":lua require('telescope').extensions.vim_bookmarks.current_file() <cr>")
+set_nmap('<space>A', ":lua require('telescope').extensions.vim_bookmarks.all() <cr>")
+set_nmap('<space>q', ":lua require'telescope.builtin'.quickfix{}<cr>")
 
 
-nnoremap <silent> <space>a :lua require('telescope').extensions.vim_bookmarks.current_file() <cr>
-nnoremap <silent> <space>A :lua require('telescope').extensions.vim_bookmarks.all() <cr>
+-- git 
+set_nmap('<space>m', ":lua require'telescope.builtin'.marks{}<cr>")
+set_nmap('<space>B', ":lua require'telescope.builtin'.git_branches{}<cr>")
+set_nmap('<space>v', ":lua require'telescope.builtin'.git_files{}<cr>")
+set_nmap('<space>c', ":lua require'telescope.builtin'.git_commits{}<cr>")
+set_nmap('<space>C', ":lua require'telescope.builtin'.git_bcommits{}<cr>")
+set_nmap('<space>k', ":lua require'telescope.builtin'.git_stash{}<cr>")
+-- buffer
+set_nmap('<space>b', ":lua require'telescope.builtin'.buffers{}<cr>")
+set_nmap('<space>l', ":lua require'telescope.builtin'.current_buffer_fuzzy_find{}<cr>")
+set_nmap('<space>L', ":lua require'telescope.builtin'.loclist{}<cr>")
 
-" buffers
-"
-nnoremap <silent> <space>b :lua require'telescope.builtin'.buffers{}<cr>
-nnoremap <silent> <space>l :lua require'telescope.builtin'.current_buffer_fuzzy_find{}<cr>
+-- command
+set_nmap('<space><cr>', ":lua require'telescope.builtin'.commands{}<cr>")
+set_nmap('<space>h', ":lua require'telescope.builtin'.search_history{}<cr>")
+set_nmap('<space>H', ":lua require'telescope.builtin'.command_history{}<cr>")
+set_nmap('<space>?', ":lua require'telescope.builtin'.keymaps{}<cr>")
+set_nmap('<space>+', ":lua require'telescope.builtin'.pickers{}<cr>")
 
