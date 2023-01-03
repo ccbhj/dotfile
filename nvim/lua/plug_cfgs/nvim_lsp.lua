@@ -30,28 +30,3 @@ local on_attach = function(client, bufnr)
   end
   -- See `:help vim.lsp.*` for documentation on any of the below functions
 end
-
-
-local set_nmap = function (key, cmd) 
-    vim.api.nvim_set_keymap(
-        'n',
-        key,
-        cmd,
-        {}
-    )
-end
-
-
-set_nmap('K', ":lua vim.lsp.buf.hover()<CR>")
-set_nmap('<leader>rn', ":lua vim.lsp.buf.rename()<CR>")
-set_nmap('[d', ":lua vim.diagnostic.goto_prev()<CR>")
-set_nmap(']d', ":lua vim.diagnostic.goto_next()<CR>")
-set_nmap('<leader>M', ":lua vim.lsp.buf.formatting()<CR>")
-set_nmap('<C-k>', ":lua vim.lsp.buf.signature_help()<CR>")
-set_nmap('<space>wa', ":lua vim.lsp.buf.add_workspace_folder()<CR>")
-set_nmap('<space>wr', ":lua vim.lsp.buf.remove_workspace_folder()<CR>")
-set_nmap('<space>ca', ":Telescope lsp_code_actions<CR>")
-set_nmap('<space>e', ":<C-u>:lua vim.lsp.diagnostic.get_line_diagnostics()<CR>")
-set_nmap('<space>q', ":<C-u>:lua vim.lsp.diagnostic.setloclist()<CR>")
-set_nmap('<leader>>', ":<C-u>:lua vim.lsp.diagnostic.formatting()<CR>")
-set_nmap('<leader><', ":<C-u>:lua vim.lsp.diagnostic.range_formatting()<CR>")
