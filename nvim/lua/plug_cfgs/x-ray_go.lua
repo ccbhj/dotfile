@@ -8,10 +8,10 @@ require('go').setup({
   comment_placeholder = 'ﳑ' ,  -- comment_placeholder your cool placeholder e.g.        
   icons = {breakpoint = '', currentpos = '🏃'},
   verbose = false,  -- output loginf in messages
-  lsp_cfg = false, -- true: apply go.nvim non-default gopls setup, if it is a list, will merge with gopls setup e.g.
+  lsp_cfg = nil, -- true: apply go.nvim non-default gopls setup, if it is a list, will merge with gopls setup e.g.
                    -- lsp_cfg = {settings={gopls={matcher='CaseInsensitive', ['local'] = 'your_local_module_path', gofumpt = true }}}
   lsp_gofumpt = false, -- true: set default gofmt in gopls format to gofumpt
-  lsp_on_attach = true, -- if a on_attach function provided:  attach on_attach function to gopls
+  lsp_on_attach = on_attach, -- if a on_attach function provided:  attach on_attach function to gopls
                        -- true: will use go.nvim on_attach if true
                        -- nil/false do nothing
   lsp_codelens = true, -- set to false to disable codelens, true by default
@@ -37,16 +37,16 @@ vim.api.nvim_exec([[ autocmd BufWritePre *.go :silent! lua require('go.format').
 vim.api.nvim_exec([[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]], false)
 
 
-local lsp_installer_servers = require'nvim-lsp-installer.servers'
-local server_available, requested_server = lsp_installer_servers.get_server("gopls")
-if server_available then
-    requested_server:on_ready(function ()
-        local opts = require'go.lsp'.config() -- config() return the go.nvim gopls setup
-        requested_server:setup(opts)
-    end)
-    if not requested_server:is_installed() then
-        -- Queue the server to be installed
-        requested_server:install()
-    end
-end
-
+-- local lsp_installer_servers = require'nvim-lsp-installer.servers'
+-- local server_available, requested_server = lsp_installer_servers.get_server("gopls")
+-- if server_available then
+--     requested_server:on_ready(function ()
+--         local opts = require'go.lsp'.config() -- config() return the go.nvim gopls setup
+--         requested_server:setup(opts)
+--     end)
+--     if not requested_server:is_installed() then
+--         -- Queue the server to be installed
+--         requested_server:install()
+--     end
+-- end
+-- 

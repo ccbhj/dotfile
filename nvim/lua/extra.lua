@@ -1,11 +1,11 @@
-local set_nmap = function (key, cmd) 
-  vim.api.nvim_set_keymap(
-      'n',
-      key,
-      cmd,
-      {noremap = true, silent = true}
-  )
-end
+--local set_nmap = function (key, cmd) 
+--  vim.api.nvim_set_keymap(
+--      'n',
+--      key,
+--      cmd,
+--      {noremap = true, silent = true}
+--  )
+--end
 
 
 vim.b.surround_indent=1
@@ -14,4 +14,3 @@ vim.b.surround_indent=1
 vim.g.AutoPairsShortcutFastWrap='<C-e>'
 vim.g.AutoPairsShortcutJump='<leader>j'
 vim.g.AutoPairsShortcutToggle='<leader>p'
--- vim.g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"`", '```':'```', '"""':'"""', "'''":"'''"}

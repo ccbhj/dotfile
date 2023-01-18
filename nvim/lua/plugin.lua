@@ -1,4 +1,6 @@
 return require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
+
   use 'AndrewRadev/splitjoin.vim'
   use 'jiangmiao/auto-pairs'
   -- use 'mdempsky/gocode' { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh', 'for': 'go'}
@@ -8,11 +10,11 @@ return require('packer').startup(function(use)
   use 'tpope/vim-fugitive'
   use {
     'plasticboy/vim-markdown',
-    ft = {'md'},
+    ft = { 'md' },
   }
   use {
-    'instant-markdown/vim-instant-markdown' ,
-    ft = {'md'},
+    'instant-markdown/vim-instant-markdown',
+    ft = { 'md' },
     run = 'yarn install'
   }
   -- use {
@@ -21,10 +23,11 @@ return require('packer').startup(function(use)
   -- }
   use 'itchyny/lightline.vim'
 
-  use {
-    'liuchengxu/vista.vim',
-    opt = true,
-  }
+  --  use {
+  --    'liuchengxu/vista.vim',
+  --    opt = true,
+  --  }
+  use 'stevearc/aerial.nvim'
   use 'preservim/tagbar'
   use 'lukas-reineke/indent-blankline.nvim'
   use 'cespare/vim-toml'
@@ -41,7 +44,7 @@ return require('packer').startup(function(use)
   use 'nvim-telescope/telescope.nvim'
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
-     run = 'make',
+    run = 'make',
   }
   use 'matveyt/neoclip'
   use 'nvim-telescope/telescope-project.nvim'
@@ -56,8 +59,9 @@ return require('packer').startup(function(use)
   use 'sindrets/diffview.nvim'
 
 
+  use "williamboman/mason.nvim"
+  use "williamboman/mason-lspconfig.nvim"
   use 'neovim/nvim-lspconfig'
-  use 'williamboman/nvim-lsp-installer'
 
   use 'onsails/lspkind.nvim'
   use 'hrsh7th/nvim-cmp'
@@ -77,6 +81,7 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
   }
+  use 'nvim-treesitter/nvim-treesitter-refactor'
   use 'romgrk/nvim-treesitter-context'
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'p00f/nvim-ts-rainbow'
@@ -86,7 +91,9 @@ return require('packer').startup(function(use)
   use 'ray-x/go.nvim'
 
   use 'catppuccin/nvim'
-  use 'simrat39/symbols-outline.nvim'
   use 'akinsho/bufferline.nvim'
+  use "jbyuki/venn.nvim"
+  use 'nvim-orgmode/orgmode'
 
+  use "folke/which-key.nvim" 
 end)

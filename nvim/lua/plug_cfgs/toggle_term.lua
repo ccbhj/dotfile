@@ -35,6 +35,8 @@ require("toggleterm").setup {
   },
 }
 
+vim.api.nvim_set_keymap('n', '<leader>t', ":ToggleTerm size=15 dir=. direction=horizontal<CR>", {noremap = true, silent = true})
+
 function _G.set_terminal_keymaps()
   local opts = {noremap = true}
   vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)

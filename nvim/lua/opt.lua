@@ -1,7 +1,8 @@
 local set = vim.o
 
 set.nocompatible = true
--- set.completeopt="menu,menuone,noselect"
+set.completeopt="menu,menuone,noselect"
+
 
 set.tw=80
 set.number=true
@@ -13,7 +14,7 @@ set.cindent= true
 set.shiftwidth=2
 set.softtabstop=2
 set.tabstop=2
-set.iskeyword="_,$,@,#,-"
+vim.opt.iskeyword:append({"_", "$", "@", "#", "-"})
 set.autowrite=true
 set.ignorecase=true
 set.smartcase=true -- 搜索时忽略大小写，但在有一个或以上大写字母时仍保持对大小写敏感
@@ -50,4 +51,6 @@ set.fencs="utf-8,gbk"
 
 set.termguicolors = true
 set.autochdir=true
+
+vim.cmd('language en_US.UTF-8')
 

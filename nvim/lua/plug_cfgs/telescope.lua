@@ -67,11 +67,12 @@ require('telescope').setup{
   extensions = {
     project = {
       base_dirs = {
+        '~/org/',
         '~/c/',
-        '~/go/src/',
+        {'~/go/src/', max_depth=1},
       },
-      hidden_files = true -- default: false
-    }, 
+      hidden_files = false, -- default: false
+    },
     fzf = {
       fuzzy = true,                    -- false will only do exact matching
       override_generic_sorter = true,  -- override the generic sorter

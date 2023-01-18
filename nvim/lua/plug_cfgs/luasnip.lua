@@ -223,7 +223,7 @@ ls.add_snippets("go", {
 		-- Simple static text.
 		t({"logger := log.GetTraceLogFromCtx("}),
 		i(1, "ctx"),
-		t({")", ""}),
+		t({")"}),
 	}),
 	s("loge", {
 		-- Simple static text.
