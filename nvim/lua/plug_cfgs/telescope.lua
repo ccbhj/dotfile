@@ -21,6 +21,17 @@ require'nvim-web-devicons'.setup {
 
 local previewers = require('telescope.previewers')
 
+local _bad = { ".*%.csv", ".*%.lua" } -- Put all filetypes that slow you down in this array
+local bad_files = function(filepath)
+  for _, v in ipairs(_bad) do
+    if filepath:match(v) then
+      return false
+    end
+  end
+
+  return true
+end
+
 local new_maker = function(filepath, bufnr, opts)
   opts = opts or {}
 
@@ -37,6 +48,12 @@ end
 
 require('telescope').setup{
   defaults = {
+    -- layout_strategy = 'bottom_pane',
+    layout_config = {
+      preview_width = 0.6,
+      width = 0.90,
+      height = 0.90,
+    },
     path_display = {"truncate"},
     buffer_previewer_maker = new_maker,
     mappings = {
@@ -50,19 +67,16 @@ require('telescope').setup{
         ["<C-k>"] = actions.move_selection_previous,
         ["<esc>"] = actions.close
       },
-    }, 
+    },
   },
   pickers = {
+    layout_strategy = 'vertical',
     -- Default configuration for builtin pickers goes here:
     -- picker_name = {
     -- },
     -- Now the picker_config_key will be applied every time you call this
     -- builtin picker
     tail_path = true,
-    layout_config = {
-      width = 0.75,
-      height = 0.75,
-    }
   },
   extensions = {
     project = {
@@ -84,6 +98,7 @@ require('telescope').setup{
       -- disables netrw and use telescope-file-browser in its place
       hijack_netrw = true,
       mappings = {},
+      buffer_previewer_maker = new_maker,
     },
   }
 }
@@ -116,6 +131,7 @@ require('neoclip').setup({
 })
 
 local builtin = require('telescope.builtin')
+local themes = require('telescope.themes')
 local set_nmap = function (key, cmd) 
     vim.keymap.set(
         'n',
@@ -123,6 +139,19 @@ local set_nmap = function (key, cmd)
         cmd,
         {}
     )
+end
+
+
+local theme_dict = {
+  ['ivy'] = themes.get_ivy,
+  ['cursor'] = themes.get_cursor,
+  ['dropdown'] = themes.get_dropdown,
+}
+
+local with_theme = function(fn, theme, args) 
+  return function ()
+    fn(theme_dict[theme](args))
+  end
 end
 
 set_nmap('<space>y', ':telescope neoclip<cr>')

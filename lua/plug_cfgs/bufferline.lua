@@ -1,5 +1,6 @@
 vim.opt.termguicolors = true
 require('bufferline').setup {
+  highlights = require("catppuccin.groups.integrations.bufferline").get(),
   options = {
     mode = "buffers",
     numbers = "ordinal",
@@ -69,7 +70,7 @@ require('bufferline').setup {
       -- add custom logic
       -- return buffer_a.modified > buffer_b.modified
     -- end
-  }
+  },
 }
 
 vim.api.nvim_set_keymap("n", "gb", ":BufferLinePick <CR>", {noremap = true, silent = true})
