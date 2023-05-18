@@ -1,3 +1,8 @@
+require('packer').init({
+  snapshot = nil, -- Name of the snapshot you would like to load at startup
+  snapshot_path = "~/.config/nvim/packer.snapshot"
+})
+
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
@@ -27,6 +32,7 @@ return require('packer').startup(function(use)
   --    'liuchengxu/vista.vim',
   --    opt = true,
   --  }
+  use 'simrat39/symbols-outline.nvim'
   use 'stevearc/aerial.nvim'
   use 'preservim/tagbar'
   use 'lukas-reineke/indent-blankline.nvim'
@@ -36,6 +42,13 @@ return require('packer').startup(function(use)
 
   use 'vim-scripts/AnsiEsc.vim'
   use 'rafamadriz/friendly-snippets'
+
+
+  use 'mfussenegger/nvim-dap'
+  use 'rcarriga/nvim-dap-ui'
+  use 'theHamsta/nvim-dap-virtual-text'
+  use 'ray-x/guihua.lua'
+  use 'mfussenegger/nvim-dap-python'
 
 
   use 'ray-x/lsp_signature.nvim'
@@ -62,6 +75,7 @@ return require('packer').startup(function(use)
   use "williamboman/mason.nvim"
   use "williamboman/mason-lspconfig.nvim"
   use 'neovim/nvim-lspconfig'
+  -- use 'mfussenegger/nvim-lint'
 
   use 'onsails/lspkind.nvim'
   use 'hrsh7th/nvim-cmp'
@@ -81,6 +95,7 @@ return require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
   }
+  use 'Wansmer/treesj'
   use 'nvim-treesitter/nvim-treesitter-refactor'
   use 'romgrk/nvim-treesitter-context'
   use 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -89,6 +104,7 @@ return require('packer').startup(function(use)
 
   use 'voldikss/vim-translator'
   use 'ray-x/go.nvim'
+  use 'simrat39/rust-tools.nvim'
 
   use 'catppuccin/nvim'
   use 'akinsho/bufferline.nvim'
@@ -96,4 +112,15 @@ return require('packer').startup(function(use)
   use 'nvim-orgmode/orgmode'
 
   use "folke/which-key.nvim" 
+  use 'willchao612/vim-diagon'
+
+  use {
+    "SmiteshP/nvim-navbuddy",
+    requires = {
+      "neovim/nvim-lspconfig",
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim"
+    }
+  }
+
 end)

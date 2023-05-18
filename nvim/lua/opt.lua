@@ -48,6 +48,7 @@ set.updatetime=300
 set.signcolumn="yes"
 set.termencoding="utf-8"
 set.fencs="utf-8,gbk"
+set.encoding="utf-8"
 
 set.termguicolors = true
 set.autochdir=true

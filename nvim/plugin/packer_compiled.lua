@@ -84,6 +84,11 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["aerial.nvim"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/aerial.nvim",
+    url = "https://github.com/stevearc/aerial.nvim"
+  },
   ["auto-pairs"] = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/auto-pairs",
@@ -144,6 +149,11 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/go.nvim",
     url = "https://github.com/ray-x/go.nvim"
   },
+  ["guihua.lua"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/guihua.lua",
+    url = "https://github.com/ray-x/guihua.lua"
+  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
@@ -164,10 +174,25 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
     url = "https://github.com/onsails/lspkind.nvim"
   },
+  ["mason-lspconfig.nvim"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
+    url = "https://github.com/williamboman/mason-lspconfig.nvim"
+  },
+  ["mason.nvim"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    url = "https://github.com/williamboman/mason.nvim"
+  },
   neoclip = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/neoclip",
     url = "https://github.com/matveyt/neoclip"
+  },
+  ["nui.nvim"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nui.nvim",
+    url = "https://github.com/MunifTanjim/nui.nvim"
   },
   nvim = {
     loaded = true,
@@ -184,15 +209,35 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
-  ["nvim-lsp-installer"] = {
+  ["nvim-dap"] = {
     loaded = true,
-    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-lsp-installer",
-    url = "https://github.com/williamboman/nvim-lsp-installer"
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text",
+    url = "https://github.com/theHamsta/nvim-dap-virtual-text"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-navbuddy"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-navbuddy",
+    url = "https://github.com/SmiteshP/nvim-navbuddy"
+  },
+  ["nvim-navic"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-navic",
+    url = "https://github.com/SmiteshP/nvim-navic"
   },
   ["nvim-neoclip.lua"] = {
     loaded = true,
@@ -214,6 +259,11 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
     url = "https://github.com/romgrk/nvim-treesitter-context"
   },
+  ["nvim-treesitter-refactor"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-treesitter-refactor",
+    url = "https://github.com/nvim-treesitter/nvim-treesitter-refactor"
+  },
   ["nvim-treesitter-textobjects"] = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-treesitter-textobjects",
@@ -229,6 +279,16 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
+  orgmode = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/orgmode",
+    url = "https://github.com/nvim-orgmode/orgmode"
+  },
+  ["packer.nvim"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    url = "https://github.com/wbthomason/packer.nvim"
+  },
   ["plenary.nvim"] = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/plenary.nvim",
@@ -243,11 +303,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/splitjoin.vim",
     url = "https://github.com/AndrewRadev/splitjoin.vim"
-  },
-  ["symbols-outline.nvim"] = {
-    loaded = true,
-    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/symbols-outline.nvim",
-    url = "https://github.com/simrat39/symbols-outline.nvim"
   },
   tagbar = {
     loaded = true,
@@ -284,10 +339,20 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
     url = "https://github.com/akinsho/toggleterm.nvim"
   },
+  treesj = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/treesj",
+    url = "https://github.com/Wansmer/treesj"
+  },
   ["twilight.nvim"] = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/twilight.nvim",
     url = "https://github.com/folke/twilight.nvim"
+  },
+  ["venn.nvim"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/venn.nvim",
+    url = "https://github.com/jbyuki/venn.nvim"
   },
   ["vim-bookmarks"] = {
     loaded = true,
@@ -298,6 +363,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/vim-commentary",
     url = "https://github.com/tpope/vim-commentary"
+  },
+  ["vim-diagon"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/vim-diagon",
+    url = "https://github.com/willchao612/vim-diagon"
   },
   ["vim-fugitive"] = {
     loaded = true,
@@ -338,11 +408,10 @@ _G.packer_plugins = {
     path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/vim-translator",
     url = "https://github.com/voldikss/vim-translator"
   },
-  ["vista.vim"] = {
-    loaded = false,
-    needs_bufread = false,
-    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/opt/vista.vim",
-    url = "https://github.com/liuchengxu/vista.vim"
+  ["which-key.nvim"] = {
+    loaded = true,
+    path = "/Users/bingjia.chen/.local/share/nvim/site/pack/packer/start/which-key.nvim",
+    url = "https://github.com/folke/which-key.nvim"
   }
 }
 

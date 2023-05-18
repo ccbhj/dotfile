@@ -1,7 +1,7 @@
 require('orgmode').setup_ts_grammar()
 
 require('orgmode').setup({
-  org_agenda_files = { '~/org/agenda/*.org' },
+  org_agenda_files = { '~/org/note/*.org', '~/org/agenda/*.org', '~/org/capture/*.org' },
   org_default_notes_file = '~/org/capture/refile.org',
   win_split_mode = 'split',
   mappings = {
@@ -18,7 +18,7 @@ require('orgmode').setup({
 
   notifications = {
     enabled = true,
-    cron_enabled = false,
+    cron_enabled = true,
     repeater_reminder_time = false,
     deadline_warning_reminder_time = false,
     reminder_time = 10,
@@ -33,7 +33,6 @@ require('orgmode').setup({
           string.format('%s: <%s>', task.type, task.time:to_string())
         })
       end
-
       if not vim.tbl_isempty(result) then
         require('orgmode.notifications.notification_popup'):new({ content = result })
       end
@@ -43,12 +42,6 @@ require('orgmode').setup({
         local title = string.format('%s (%s)', task.category, task.humanized_duration)
         local subtitle = string.format('%s %s %s', string.rep('*', task.level), task.todo, task.title)
         local date = string.format('%s: %s', task.type, task.time:to_string())
-
-        -- Linux
-        -- if vim.fn.executable('notify-send') == 1 then
-        --   vim.loop.spawn('notify-send', { args = { string.format('%s\n%s\n%s', title, subtitle, date) }})
-        -- end
-
         -- MacOS
         if vim.fn.executable('terminal-notifier') == 1 then
           vim.loop.spawn('terminal-notifier', { args = { '-title', title, '-subtitle', subtitle, '-message', date }})

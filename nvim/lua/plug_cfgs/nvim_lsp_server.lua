@@ -1,3 +1,4 @@
+  -- For example, a handler override for the `rust_analyzer`:
 require("mason").setup({
   providers = {
     "mason.providers.client",
@@ -28,20 +29,20 @@ local border = {
   { "│", "FloatBorder" }
 }
 
--- LSP settings (for overriding per client)
-local handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-}
-
 -- config diagnostic display
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
-  underline = true,
+  underline = {
+    severity = vim.diagnostic.severity.ERROR,
+  },
   update_in_insert = false,
   severity_sort = false,
+  float = {
+    source = "always",  -- Or "if_many"
+  },
 })
+
 local signs = { Error = "", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
@@ -81,9 +82,12 @@ local function goto_definition(split_cmd)
   return handler
 end
 
-handlers["textDocument/definition"] = goto_definition('split')
 
-local M = {}
+local handlers = {
+  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+  ["textDocument/definition"] = goto_definition('split'),
+}
 
 require('vim.lsp.protocol').CompletionItemKind = {
   '', -- Text
@@ -115,34 +119,26 @@ require('vim.lsp.protocol').CompletionItemKind = {
 
 local on_attach = function(client, bufnr)
 
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local opts = { noremap = true, silent = true}
 
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
+  vim.keymap.set('n', '<space>e',  vim.diagnostic.open_float, opts)
+  vim.keymap.set('n', '<space>q',  vim.diagnostic.setloclist, opts)
+  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
   -- Mappings.
-  local opts = { noremap = true, silent = true }
+  local opts = { noremap = true, silent = true, buffer = bufnr }
   -- telescope
 
-  buf_set_keymap('n', 'K', ":lua vim.lsp.buf.hover()<CR>", opts)
-  buf_set_keymap('n', '[d', ":lua vim.diagnostic.goto_prev()<CR>", opts)
-  buf_set_keymap('n', ']d', ":lua vim.diagnostic.goto_next()<CR>", opts)
-  buf_set_keymap('n', '<leader>M', ":lua vim.lsp.buf.formatting()<CR>", opts)
-  buf_set_keymap('n', '<C-k>', ":lua vim.lsp.buf.signature_help()<CR>", opts)
-  buf_set_keymap('n', '<space>wa', ":lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-  buf_set_keymap('n', '<space>wr', ":lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-  buf_set_keymap('n', '<space>ca', ":Telescope lsp_code_actions<CR>", opts)
-  buf_set_keymap('n', '<space>e', ":<C-u>:lua vim.lsp.diagnostic.get_line_diagnostics()<CR>", opts)
-  buf_set_keymap('n', '<space>q', ":<C-u>:lua vim.lsp.diagnostic.setloclist()<CR>", opts)
-  buf_set_keymap('n', '<leader>>', ":<C-u>:lua vim.lsp.diagnostic.formatting()<CR>", opts)
-  buf_set_keymap('n', '<leader><', ":<C-u>:lua vim.lsp.diagnostic.range_formatting()<CR>", opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', '<leader>M', vim.lsp.buf.formatting, opts)
+  vim.keymap.set('n', '<C-k>',     vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
 
   -- Set some keybinds conditional on server capabilities
-  if client.server_capabilities.document_formatting then
-    buf_set_keymap("n", "<leader>>", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  elseif client.server_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<leader><", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-  end
+  vim.keymap.set('n', '<space>F', function() vim.lsp.buf.format { async = true } end, opts)
 
   -- Set autocommands conditional on server_capabilities
   if client.server_capabilities.document_highlight then
@@ -156,6 +152,8 @@ local on_attach = function(client, bufnr)
   end
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   --
+  require('nvim-navbuddy').attach(client, bufnr)
+
 end
 
 require("mason-lspconfig").setup_handlers {
@@ -170,10 +168,6 @@ require("mason-lspconfig").setup_handlers {
       on_attach = on_attach,
     }
   end,
-  -- Next, you can provide a dedicated handler for specific servers.
-  -- For example, a handler override for the `rust_analyzer`:
-  ["rust_analyzer"] = function()
-  end
 }
 
 -- local util = require('lspconfig/util')

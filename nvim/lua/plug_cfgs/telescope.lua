@@ -18,19 +18,14 @@ require'nvim-web-devicons'.setup {
  default = true;
 }
 
+local merge_tab = function (a, b)
+  for k, v in pairs(a) do
+    b[k] = v
+  end
+end
+
 
 local previewers = require('telescope.previewers')
-
-local _bad = { ".*%.csv", ".*%.lua" } -- Put all filetypes that slow you down in this array
-local bad_files = function(filepath)
-  for _, v in ipairs(_bad) do
-    if filepath:match(v) then
-      return false
-    end
-  end
-
-  return true
-end
 
 local new_maker = function(filepath, bufnr, opts)
   opts = opts or {}
@@ -60,17 +55,16 @@ require('telescope').setup{
       i = {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
-        ["<esc>"] = actions.close
+        ["<esc><esc>"] = actions.close
       },
       n = {
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
-        ["<esc>"] = actions.close
+        ["<esc><esc>"] = actions.close
       },
     },
   },
   pickers = {
-    layout_strategy = 'vertical',
     -- Default configuration for builtin pickers goes here:
     -- picker_name = {
     -- },
@@ -98,7 +92,6 @@ require('telescope').setup{
       -- disables netrw and use telescope-file-browser in its place
       hijack_netrw = true,
       mappings = {},
-      buffer_previewer_maker = new_maker,
     },
   }
 }
@@ -131,7 +124,6 @@ require('neoclip').setup({
 })
 
 local builtin = require('telescope.builtin')
-local themes = require('telescope.themes')
 local set_nmap = function (key, cmd) 
     vim.keymap.set(
         'n',
@@ -139,19 +131,6 @@ local set_nmap = function (key, cmd)
         cmd,
         {}
     )
-end
-
-
-local theme_dict = {
-  ['ivy'] = themes.get_ivy,
-  ['cursor'] = themes.get_cursor,
-  ['dropdown'] = themes.get_dropdown,
-}
-
-local with_theme = function(fn, theme, args) 
-  return function ()
-    fn(theme_dict[theme](args))
-  end
 end
 
 set_nmap('<space>y', ':telescope neoclip<cr>')
@@ -185,20 +164,33 @@ set_nmap('<space>L', ":lua require'telescope.builtin'.loclist{}<cr>")
 
 -- command
 set_nmap('<space><cr>', ":lua require'telescope.builtin'.commands{}<cr>")
-set_nmap('<space>h', ":lua require'telescope.builtin'.search_history{}<cr>")
-set_nmap('<space>H', ":lua require'telescope.builtin'.command_history{}<cr>")
+set_nmap('<space>H', ":lua require'telescope.builtin'.search_history{}<cr>")
+set_nmap('<space>h', ":lua require'telescope.builtin'.command_history{}<cr>")
 set_nmap('<space>?', ":lua require'telescope.builtin'.keymaps{}<cr>")
 set_nmap('<space>+', ":lua require'telescope.builtin'.pickers{}<cr>")
 
 
 -- lsp
 set_nmap('gD', ":lua vim.lsp.buf.declaration()<cr>")
-set_nmap('gd', ":lua require'telescope.builtin'.lsp_definitions(require('telescope.themes').get_dropdown({}))<cr>")
-set_nmap('gy', ":lua require'telescope.builtin'.lsp_type_definitions(require('telescope.themes').get_dropdown({}))<cr>")
+-- set_nmap('gd', ":lua require'telescope.builtin'.lsp_definitions(require('telescope.themes').get_cursor({jump_type='never'}))<cr>")
+set_nmap('gd', function () builtin.lsp_definitions() end)
+local get_cursor_opt={
+  jump_type='never',
+  layout_config={
+    preview_width = 0.6,
+    width = 0.8,
+    height = 0.5,
+  },
+}
+set_nmap('gy', function () builtin.lsp_type_definitions(themes.get_cursor(get_cursor_opt)) end)
 set_nmap('gi', builtin.lsp_implementations)
-set_nmap('gr', builtin.lsp_references)
+
+local dropdown_opt={
+  jump_type='never',
+}
+set_nmap('gr', function () builtin.lsp_references(dropdown_opt) end)
 
 set_nmap('<space>s', builtin.lsp_document_symbols)
-set_nmap('<space>S', ":lua require'telescope.builtin'.lsp_workspace_symbols query=")
-set_nmap('<space>d', ":lua require'telescope.builtin'.diagnostics({bufnr=0})<cr>")
+set_nmap('<space>S', ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols()<cr>")
+set_nmap('<space>d', ":lua require'telescope.builtin'.diagnostics()<cr>")
 set_nmap('<space>D', builtin.diagnostics)

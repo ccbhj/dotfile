@@ -68,13 +68,15 @@ function compile_and_run()
     vim.api.nvim_command('!time go run %')
   elseif ft == 'c' then
     vim.api.nvim_command('!gcc -Wall -g % -o /tmp/%<')
-    vim.api.nvim_command('!time ./%<')
+    vim.api.nvim_command('!time /tmp/%<')
   elseif ft == 'python' then
     vim.api.nvim_command('!time python3 %') 
   elseif ft == 'sh' then
     vim.api.nvim_command('!time ./%') 
   elseif ft == 'rust' then
     vim.api.nvim_command('!time cargo run') 
+  elseif ft == 'lua' then 
+    vim.api.nvim_command('!time lua ./%') 
   elseif ft == 'elixir' then
     vim.api.nvim_command('!time elixir ./%') 
   end
@@ -83,5 +85,5 @@ end
 set_map('<F6>', ":lua compile_and_run()<CR>")
 
 
-set_map('<leader>dl', ":diffget remote <CR>")
-set_map('<leader>dh', ":diffget local <CR>")
+-- set_map('<leader>dl', ":diffget remote <CR>")
+-- set_map('<leader>dh', ":diffget local <CR>")

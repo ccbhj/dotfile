@@ -19,7 +19,6 @@ set_nmap('<leader>m', '<Plug>BookmarkToggle')
 set_nmap('<leader>i', '<Plug>BookmarkAnnotate')
 set_nmap('<leader>j', '<Plug>BookmarkNext')
 set_nmap('<leader>k', '<Plug>BookmarkPrev')
-set_nmap('<leader>c', '<Plug>BookmarkClear')
 set_nmap('<leader>kk', '<Plug>BookmarkMoveUp')
 set_nmap('<leader>jj', '<Plug>BookmarkMoveDown')
 
