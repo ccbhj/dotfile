@@ -37,9 +37,7 @@ ls.config.set_config({
 	-- minimal increase in priority.
 	ext_prio_increase = 1,
 	enable_autosnippets = true,
-	ft_func = function()
-		return vim.split(vim.bo.filetype, ".", true)
-	end,
+	ft_func = require("luasnip.extras.filetype_functions").from_cursor,
 })
 
 -- args is a table, where 1 is the text in Placeholder 1, 2 the text in
@@ -161,26 +159,6 @@ local date_input = function(args, state, fmt)
 	local fmt = fmt or "%Y-%m-%d"
 	return sn(nil, i(1, os.date(fmt)))
 end
---
--- in a lua file: search lua-, then c-, then all-snippets.
--- ls.filetype_extend("lua", { "c" })
--- in a cpp file: search c-snippets, then all-snippets only (no cpp-snippets!!).
--- ls.filetype_set("cpp", { "c" })
-
---[[
--- Beside defining your own snippets you can also load snippets from "vscode-like" packages
--- that expose snippets in json files, for example <https://github.com/rafamadriz/friendly-snippets>.
--- Mind that this will extend  `ls.snippets` so you need to do it after your own snippets or you
--- will need to extend the table yourself instead of setting a new one.
-]]
-
--- require("luasnip/loaders/from_vscode").load({ include = { "python" } }) -- Load only python snippets
--- The directories will have to be structured like eg. <https://github.com/rafamadriz/friendly-snippets> (include
--- a similar `package.json`)
--- require("luasnip/loaders/from_vscode").load({ paths = { "./my-snippets" } }) -- Load snippets from my-snippets folder
-
--- You can also use lazy loading so you only get in memory snippets of languages you use
-require("luasnip/loaders/from_vscode").lazy_load() -- You can pass { paths = "./my-snippets/"} as wells
 
 local function is_empty(s)
   return s == nil or s == ''
@@ -208,46 +186,73 @@ local ifr = s("ifr", {
 
 ls.add_snippets("go", {
 	ifr,
-	s("deferr", {
-		-- Simple static text.
-		t({"defer func() {", ""}),
-		t({"\t"}),
-		d(1, function (_)
-			return ifr
-		end),
-		t({"\t", ""}),
-		t({"}()"}),
-	}),
 	-- logging
-	s("ctxlog", {
-		-- Simple static text.
-		t({"logger := log.GetTraceLogFromCtx("}),
-		i(1, "ctx"),
-		t({")"}),
-	}),
-	s("loge", {
-		-- Simple static text.
-		t({"log.GetTraceLogFromCtx(ctx).Error("}),
-		i(1),
-		f(add_comma_before, {2}, {}),
-		i(2, "zap.Error(err)"),
-		t(")")
-	}),
-	s("logi", {
-		-- Simple static text.
-		t({"log.GetTraceLogFromCtx(ctx).Info("}),
-		i(1),
-		f(add_comma_before, {2}, {}),
-		i(2, ''),
-		t(")")
-	}),
-	s("logd", {
-		-- Simple static text.
-		t({"log.GetTraceLogFromCtx(ctx).Debug("}),
-		i(1),
-		f(add_comma_before, {2}, {}),
-		i(2),
-		t(")")
-	}),
-})
+  s("ctxlog",
+  fmt( [[ 
+  logger := log.GetTraceLogFromCtx(<>)
+ ]],
+    {
+      i(1, "ctx")
+    }, { delimiters = "<>" })),
 
+  s("loge",
+  fmt( [[ 
+  log.GetTraceLogFromCtx(ctx).Error(<><><>)
+ ]],
+    {
+      i(1),
+      f(add_comma_before, {2}, {}),
+      i(2, "zap.Error(err)"),
+    }, { delimiters = "<>" })),
+
+
+  s("logi",
+  fmt( [[ 
+  log.GetTraceLogFromCtx(ctx).Info(<><><>)
+ ]],
+    {
+      i(1),
+      f(add_comma_before, {2}, {}),
+      i(2, ""),
+    }, { delimiters = "<>" })),
+
+  s("logd",
+  fmt( [[ 
+  log.GetTraceLogFromCtx(ctx).Debug(<><><>)
+ ]],
+    {
+      i(1),
+      f(add_comma_before, {2}, {}),
+      i(2, ""),
+    }, { delimiters = "<>" })),
+
+
+  s("luafn",
+  fmt( [[ 
+func <>(L *lua.LState) int {
+  var exports = map[string]Export {
+    <>
+  }
+	ExportsToMod(L, <>, exports)
+	return 1
+} ]],
+    {
+      i(1),
+      i(2),
+      i(3, ""),
+    }, { delimiters = "<>" })),
+
+	s("deferr",
+    fmt(
+      [[
+defer func() {
+  if r := recover(); r != nil {
+    <>
+  }
+}() ]],
+      {
+        i(1, "panic(r)")
+      },{ delimiters = "<>" }
+    )),
+
+})

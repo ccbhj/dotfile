@@ -49,7 +49,7 @@ require('telescope').setup{
       width = 0.90,
       height = 0.90,
     },
-    path_display = {"truncate"},
+    path_display = {"truncate", "smart"},
     buffer_previewer_maker = new_maker,
     mappings = {
       i = {
@@ -190,7 +190,11 @@ local dropdown_opt={
 }
 set_nmap('gr', function () builtin.lsp_references(dropdown_opt) end)
 
-set_nmap('<space>s', builtin.lsp_document_symbols)
+set_nmap('<space>s', function()
+  builtin.lsp_document_symbols({
+    symbol_width = 60,
+  })
+end)
 set_nmap('<space>S', ":lua require'telescope.builtin'.lsp_dynamic_workspace_symbols()<cr>")
 set_nmap('<space>d', ":lua require'telescope.builtin'.diagnostics()<cr>")
 set_nmap('<space>D', builtin.diagnostics)

@@ -1,91 +1,4 @@
-local on_attach = function(client, bufnr)
-
-  local opts = { noremap = true, silent = true}
-
-  vim.keymap.set('n', '<space>e',  vim.diagnostic.open_float, opts)
-  vim.keymap.set('n', '<space>q',  vim.diagnostic.setloclist, opts)
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-  -- Mappings.
-  local opts = { noremap = true, silent = true, buffer = bufnr }
-  -- telescope
-
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<leader>M', vim.lsp.buf.formatting, opts)
-  vim.keymap.set('n', '<C-k>',     vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-
-  -- Set some keybinds conditional on server capabilities
-  vim.keymap.set('n', '<space>F', function() vim.lsp.buf.format { async = true } end, opts)
-
-  -- Set autocommands conditional on server_capabilities
-  if client.server_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-    augroup lsp_document_highlight
-    autocmd! * <buffer>
-    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    augroup END
-    ]], false)
-  end
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  --
-  require("nvim-navbuddy").attach(client, bufnr)
-end
---
--- Go-to definition in a split window
-local function goto_definition(split_cmd)
-  local util = vim.lsp.util
-  local log = require("vim.lsp.log")
-  local api = vim.api
-
-  -- note, this handler style is for neovim 0.5.1/0.6, if on 0.5, call with function(_, method, result)
-  local handler = function(_, result, ctx)
-    if result == nil or vim.tbl_isempty(result) then
-      local _ = log.info() and log.info(ctx.method, "No location found")
-      return nil
-    end
-
-    if split_cmd then
-      vim.cmd(split_cmd)
-    end
-
-    if vim.tbl_islist(result) then
-      util.jump_to_location(result[1])
-
-      if #result > 1 then
-        util.set_qflist(util.locations_to_items(result))
-        api.nvim_command("copen")
-        api.nvim_command("wincmd p")
-      end
-    else
-      util.jump_to_location(result)
-    end
-  end
-
-  return handler
-end
-
-
-local border = {
-  { "╭", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╮", "FloatBorder" },
-  { "│", "FloatBorder" },
-  { "╯", "FloatBorder" },
-  { "─", "FloatBorder" },
-  { "╰", "FloatBorder" },
-  { "│", "FloatBorder" }
-}
-
-local handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-  ["textDocument/definition"] = goto_definition('split'),
-}
+local lsp_cfg = require("plug_cfgs.nvim_lsp_server")
 
 require('go').setup({
   goimport='gopls', -- goimport command, can be gopls[default] or goimport
@@ -97,9 +10,10 @@ require('go').setup({
   comment_placeholder = 'ﳑ' ,  -- comment_placeholder your cool placeholder e.g.        
   icons = {breakpoint = '', currentpos = '🏃'},
   verbose = false,  -- output loginf in messages
+  log_path = "/tmp/x-ray_go.log",
   lsp_cfg = {
-    capabilities = require('cmp_nvim_lsp').default_capabilities(),
-    handlers = handlers,
+    capabilities = lsp_cfg.capabilities,
+    handlers = lsp_cfg.handlers,
     settings = {
       gopls = {
         directoryFilters = {
@@ -115,9 +29,10 @@ require('go').setup({
   }, -- true: apply go.nvim non-default gopls setup, if it is a list, will merge with gopls setup e.g.
                    -- lsp_cfg = {settings={gopls={matcher='CaseInsensitive', ['local'] = 'your_local_module_path', gofumpt = true }}}
   lsp_gofumpt = false, -- true: set default gofmt in gopls format to gofumpt
-  lsp_on_attach = on_attach, -- if a on_attach function provided:  attach on_attach function to gopls
+  lsp_on_attach = lsp_cfg.on_attach, -- if a on_attach function provided:  attach on_attach function to gopls
                        -- true: will use go.nvim on_attach if true
                        -- nil/false do nothing
+  lsp_fmt_async = true,
   lsp_codelens = true, -- set to false to disable codelens, true by default
   lsp_diag_hdlr = true, -- hook lsp diag handler
   lsp_diag_underline = true,
@@ -136,7 +51,7 @@ require('go').setup({
     -- default: false
     show_variable_name = false,
     -- prefix for parameter hints
-    parameter_hints_prefix = " ",
+    parameter_hints_prefix = "ƒ ",
     show_parameter_hints = true,
     -- prefix for all the other hints (type, chaining)
     other_hints_prefix = "=> ",
@@ -152,8 +67,9 @@ require('go').setup({
     highlight = "Comment",
   },
 
+  luasnip = false, -- set true to enable included luasnip
   gopls_remote_auto = true, -- add -remote=auto to gopls
-  gopls_cmd = nil, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
+  gopls_cmd = {"/Users/bingjia.chen/go/bin/gopls", "-logfile", "/tmp/gopls.log" }, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
   fillstruct = 'gopls', -- can be nil (use fillstruct, slower) and gopls
 
   dap_debug = true, -- set to false to disable dap

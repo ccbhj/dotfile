@@ -1,4 +1,5 @@
-  -- For example, a handler override for the `rust_analyzer`:
+local M = {}
+ -- For example, a handler override for the `rust_analyzer`:
 require("mason").setup({
   providers = {
     "mason.providers.client",
@@ -28,27 +29,6 @@ local border = {
   { "╰", "FloatBorder" },
   { "│", "FloatBorder" }
 }
-
--- config diagnostic display
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = {
-    severity = vim.diagnostic.severity.ERROR,
-  },
-  update_in_insert = false,
-  severity_sort = false,
-  float = {
-    source = "always",  -- Or "if_many"
-  },
-})
-
-local signs = { Error = "", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
 -- Go-to definition in a split window
 local function goto_definition(split_cmd)
   local util = vim.lsp.util
@@ -81,44 +61,57 @@ local function goto_definition(split_cmd)
 
   return handler
 end
+  --
+-- setup diagnostic
+vim.diagnostic.config({
+  virtual_text = {
+    space = 10
+  },
+  signs = signs,
+  underline = {
+    severity = vim.diagnostic.severity.ERROR,
+  },
+  update_in_insert = true,
+  severity_sort = false,
+  float = {
+    source = "if_many",  -- Or "if_many"
+  },
+})
 
+local signs = { Error = "", Warn = '', Hint = '', Info = '' }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
-local handlers = {
+M.handlers = {
   ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
   ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
   ["textDocument/definition"] = goto_definition('split'),
-}
+  ["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = {
+          source = 'always',
+          prefix = '■',
+          -- Only show virtual text matching the given severity
+          severity = {
+            -- Specify a range of severities
+            min = vim.diagnostic.severity.ERROR,
+          },
+        },
+        float = {
+          source = 'always',
+          border = 'rounded',
+        },
+        signs = true,
+        underline = false,
+        update_in_insert = false,
+        severity_sort = true,
+      }
+    )
+  }
 
-require('vim.lsp.protocol').CompletionItemKind = {
-  '', -- Text
-  '', -- Method
-  '', -- Function
-  '', -- Constructor
-  '', -- Field
-  '', -- Variable
-  '', -- Class
-  'ﰮ', -- Interface
-  '', -- Module
-  '', -- Property
-  '', -- Unit
-  '', -- Value
-  '了', -- Enum
-  '', -- Keyword
-  '﬌', -- Snippet
-  '', -- Color
-  '', -- File
-  '', -- Reference
-  '', -- Folder
-  '', -- EnumMember
-  '', -- Constant
-  '', -- Struct
-  '', -- Event
-  'ﬦ', -- Operator
-  '', -- TypeParameter
-}
-
-local on_attach = function(client, bufnr)
-
+function M.on_attach(client, bufnr)
   local opts = { noremap = true, silent = true}
 
   vim.keymap.set('n', '<space>e',  vim.diagnostic.open_float, opts)
@@ -130,7 +123,9 @@ local on_attach = function(client, bufnr)
   -- telescope
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<leader>M', vim.lsp.buf.formatting, opts)
+  vim.keymap.set('n', '<leader>M',function ()
+    vim.lsp.buf.format { async = true }
+  end , opts)
   vim.keymap.set('n', '<C-k>',     vim.lsp.buf.signature_help, opts)
   vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
   vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
@@ -152,9 +147,22 @@ local on_attach = function(client, bufnr)
   end
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   --
-  require('nvim-navbuddy').attach(client, bufnr)
+  -- require('nvim-navbuddy').attach(client, bufnr)
 
 end
+
+M.lsp_flags = {
+  -- This is the default in Nvim 0.7+
+  -- debounce_text_changes = 150,
+  exit_timeout = 1000,
+}
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
+M.capabilities = capabilities
 
 require("mason-lspconfig").setup_handlers {
   -- The first entry (without a key) will be the default handler
@@ -163,31 +171,12 @@ require("mason-lspconfig").setup_handlers {
 
   function(server_name) -- default handler (optional)
     require("lspconfig")[server_name].setup {
-      capabilities = require('cmp_nvim_lsp').default_capabilities(),
-      handlers = handlers,
-      on_attach = on_attach,
+      capabilities = M.capabilities,
+      handlers = M.handlers,
+      on_attach = M.on_attach,
+      flags = Mlsp_flags,
     }
   end,
 }
 
--- local util = require('lspconfig/util')
--- local lastRootPath = nil
--- local gopath = os.getenv("GOPATH")
--- if gopath == nil then
---   gopath = ""
--- end
--- local gopathmod = gopath..'/pkg/mod'
-
--- require('lspconfig')['gopls'].setup{
---   root_dir = function(fname)
---     local fullpath = vim.fn.expand(fname, ':p')
---     if string.find(fullpath, gopathmod) and lastRootPath ~= nil then
---         return lastRootPath
---     end
---     lastRootPath = util.root_pattern("go.mod", ".git")(fname)
---     return lastRootPath
---   end,
---   capabilities = require('cmp_nvim_lsp').default_capabilities(),
---   handlers = handlers,
---   on_attach = on_attach,
--- }
+return M

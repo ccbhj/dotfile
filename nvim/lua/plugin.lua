@@ -1,6 +1,6 @@
 require('packer').init({
-  snapshot = nil, -- Name of the snapshot you would like to load at startup
-  snapshot_path = "~/.config/nvim/packer.snapshot"
+  -- snapshot = nil, -- Name of the snapshot you would like to load at startup
+  -- snapshot_path = "/Users/bingjia.chen/dotfile/nvim/packer.snapshot"
 })
 
 return require('packer').startup(function(use)
@@ -65,6 +65,7 @@ return require('packer').startup(function(use)
   use 'nvim-telescope/telescope-file-browser.nvim'
   use 'AckslD/nvim-neoclip.lua'
   use 'kyazdani42/nvim-web-devicons'
+  use 'mortepau/codicons.nvim'
   use 'MattesGroeger/vim-bookmarks'
   use 'akinsho/toggleterm.nvim'
   use 'folke/twilight.nvim'
@@ -75,11 +76,14 @@ return require('packer').startup(function(use)
   use "williamboman/mason.nvim"
   use "williamboman/mason-lspconfig.nvim"
   use 'neovim/nvim-lspconfig'
-  -- use 'mfussenegger/nvim-lint'
 
   use 'onsails/lspkind.nvim'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'ray-x/cmp-treesitter'
+  use 'hrsh7th/cmp-nvim-lsp-document-symbol'
+  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'petertriho/cmp-git'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
@@ -111,7 +115,7 @@ return require('packer').startup(function(use)
   use "jbyuki/venn.nvim"
   use 'nvim-orgmode/orgmode'
 
-  use "folke/which-key.nvim" 
+  use "folke/which-key.nvim"
   use 'willchao612/vim-diagon'
 
   use {
@@ -119,8 +123,14 @@ return require('packer').startup(function(use)
     requires = {
       "neovim/nvim-lspconfig",
       "SmiteshP/nvim-navic",
-      "MunifTanjim/nui.nvim"
+      "MunifTanjim/nui.nvim",
+      "numToStr/Comment.nvim",        -- Optional
     }
   }
+
+  use { "stevearc/oil.nvim"}
+  use "LunarVim/bigfile.nvim"
+
+  use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
 
 end)

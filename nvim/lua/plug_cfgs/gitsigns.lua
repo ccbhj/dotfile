@@ -10,28 +10,47 @@ require('gitsigns').setup {
   numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
   linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
   word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
-  keymaps = {
-    -- Default keymap options
-    noremap = true,
+    on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
 
-    ['n ]c'] = { expr = true, "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'"},
-    ['n [c'] = { expr = true, "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'"},
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
 
-    ['n <leader>hs'] = '<cmd>Gitsigns stage_hunk<CR>',
-    ['v <leader>hs'] = ':Gitsigns stage_hunk<CR>',
-    ['n <leader>hu'] = '<cmd>Gitsigns undo_stage_hunk<CR>',
-    ['n <leader>hr'] = '<cmd>Gitsigns reset_hunk<CR>',
-    ['v <leader>hr'] = ':Gitsigns reset_hunk<CR>',
-    ['n <leader>hR'] = '<cmd>Gitsigns reset_buffer<CR>',
-    ['n <leader>hp'] = '<cmd>Gitsigns preview_hunk<CR>',
-    ['n <leader>hb'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
-    ['n <leader>hS'] = '<cmd>Gitsigns stage_buffer<CR>',
-    ['n <leader>hU'] = '<cmd>Gitsigns reset_buffer_index<CR>',
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
 
+    -- Actions
+    map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
+    map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+    map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
+    map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
+    map('n', '<leader>hb', '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+    map('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
+    map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
+    map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+    map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
     -- Text objects
-    ['o ih'] = ':<C-U>Gitsigns select_hunk<CR>',
-    ['x ih'] = ':<C-U>Gitsigns select_hunk<CR>'
-  },
+    map("n", "ih",  ':<C-U>Gitsigns select_hunk<CR>')
+    map("x", "ih",  ':<C-U>Gitsigns select_hunk<CR>')
+
+    map("n", "dh", ":diffget local <CR>")
+    map("n", "dl", ":diffget remote <CR>")
+    map("n", "<leader>hl", ":Gitsigns setloclist<CR>")
+    map("n", "<leader>hs", ":Gitsigns stage_hunk<CR>")
+    map("n", "<leader>hS", ":Gitsigns undo_stage_hunk<CR>")
+    map("n", "<leader>hr", ":Gitsigns reset_hunk<CR>")
+    map("n", "<leader>hR", ":Gitsigns reset_buffer<CR>")
+    map("n", "<leader>hp", ":Gitsigns preview_hunk<CR>")
+    map("n", "<leader>hb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+
+  end,
   watch_gitdir = {
     interval = 1000,
     follow_files = true
@@ -63,22 +82,3 @@ require('gitsigns').setup {
     enable = false
   },
 }
-
-local set_nmap = function (key, cmd) 
-    vim.api.nvim_set_keymap(
-        'n',
-        key,
-        cmd,
-        {noremap = true, silent = true}
-    )
-end
-
-set_nmap("dh", ":diffget local <CR>")
-set_nmap("dl", ":diffget remote <CR>")
-set_nmap("<leader>hl", ":Gitsigns setloclist<CR>")
-set_nmap("<leader>hs", ":Gitsigns stage_hunk<CR>")
-set_nmap("<leader>hS", ":Gitsigns undo_stage_hunk<CR>")
-set_nmap("<leader>hr", ":Gitsigns reset_hunk<CR>")
-set_nmap("<leader>hR", ":Gitsigns reset_buffer<CR>")
-set_nmap("<leader>hp", ":Gitsigns preview_hunk<CR>")
-set_nmap("<leader>hb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')

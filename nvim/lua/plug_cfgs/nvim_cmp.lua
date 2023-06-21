@@ -18,11 +18,20 @@ local cmp = require("cmp")
 
 vim.g.completeopt="menu,menuone,noselect"
 
+local default_cmp_sources = {
+  { name = 'nvim_lsp', },
+  { name = 'path' },
+  { name = 'luasnip' },
+  { name = 'orgmode' },
+  { name = 'nvim_lsp_signature_help' },
+  { name = 'buffer'  },
+}
+
 cmp.setup({
-   formatting = {
+  formatting = {
     fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item) 
-      local kind = lspkind.cmp_format({ mode = 'symbol', -- show only symbol annotations
+      local kind = lspkind.cmp_format({ mode = 'symbol_text', -- show only symbol annotations
         maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
       }) (entry, vim_item)
       local strings = vim.split(kind.kind, "%s", { trimempty = true })
@@ -38,6 +47,7 @@ cmp.setup({
       return kind
     end
   },
+
   snippet = {
     expand = function(args)
       -- For `vsnip` user.
@@ -117,53 +127,66 @@ cmp.setup({
       end
     end, { "i", "s" })
   },
-  sources = {
-    { name = 'nvim_lsp', },
-
-    { name = 'path' },
-
-    -- For vsnip user.
-    -- { name = 'vsnip' },
-
-    -- For luasnip user.
-    { name = 'luasnip' },
-
-    -- For ultisnips user.
-    -- { name = 'ultisnips' },
-
-    { name = 'orgmode' },
-    { name = 'buffer'  },
-  }
+  sources = default_cmp_sources,
 })
 
--- Set configuration for specific filetype.
-cmp.setup.filetype('gitcommit', {
-  sources = cmp.config.sources({
-    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
-  }, {
+local setup_specific_source = function ()
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+        { name = 'buffer' },
+      })
+  })
+
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    entries = {name = 'wildmenu', separator = '|' },
+    sources = {
       { name = 'buffer' },
-    })
-})
+      { name = 'nvim_lsp_document_symbol' }
+    }
+  })
 
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  entries = {name = 'wildmenu', separator = '|' },
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
--- `:` cmdline setup.
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
+  -- `:` cmdline setup.
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    },
       {
-        name = 'cmdline',
-        option = {
-          ignore_cmds = { 'Man', '!' },
+        {
+          name = 'cmdline',
+          option = {
+            ignore_cmds = { 'Man', '!' },
+          }
         }
-      }
-    })
+      })
+  })
+end
+
+bufIsBig = function(bufnr)
+  local max_filesize = 100 * 1024 -- 100 KB
+  local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+  if ok and stats and stats.size > max_filesize then
+    return true
+  else
+    return false
+  end
+end
+
+-- If a file is too large, I don't want to add to it's cmp sources treesitter, see:
+-- https://github.com/hrsh7th/nvim-cmp/issues/1522
+vim.api.nvim_create_autocmd('BufReadPre', {
+ callback = function(t)
+   local sources = default_cmp_sources
+   if not bufIsBig(t.buf) then
+     sources[#sources+1] = {name = 'treesitter', group_index = 2}
+   end
+   cmp.setup.buffer {
+     sources = sources
+   }
+   setup_specific_source()
+ end
 })
