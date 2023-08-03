@@ -1,3 +1,4 @@
+
 require('orgmode').setup_ts_grammar()
 
 require('orgmode').setup({
@@ -6,8 +7,8 @@ require('orgmode').setup({
   win_split_mode = 'split',
   mappings = {
     global = {
-      org_agenda = '<Space>oa',
-      org_capture = '<Space>oc'
+      org_agenda = '<F9>',
+      org_capture = '<F10>'
     },
   },
 
@@ -51,3 +52,15 @@ require('orgmode').setup({
   },
 })
 
+
+local set_map = function (key, cmd) 
+    vim.api.nvim_set_keymap(
+        '',
+        key,
+        cmd,
+        {}
+    )
+end
+
+-- F11 to open the TODO agenda in a tab
+set_map("<F11>", ":tabedit ~/org/agenda/TODO.org <cr>")

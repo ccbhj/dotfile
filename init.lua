@@ -20,6 +20,7 @@ require("plug_cfgs.lsp_signature_help")
 require("plug_cfgs.luasnip")
 require("plug_cfgs.x-ray_go")
 require("plug_cfgs.treesitter")
+require("plug_cfgs.treesj")
 require("plug_cfgs.aerial")
 require("plug_cfgs.lspkind")
 

@@ -33,6 +33,8 @@ end
 -- unmap the evil F1
 set_nmap("<F1>", ":echo<CR>")
 set_imap("<F1>", "<C-o>:echo<CR>")
+-- <F5> to reload the config
+set_imap("<F5>", ":source $XDG_CONFIG_HOME/nvim/init.lua<cr>")
 
 -- tab
 set_map("tn", ":tabnext<cr>")

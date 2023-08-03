@@ -1,15 +1,15 @@
 local lsp_cfg = require("plug_cfgs.nvim_lsp_server")
 
 require('go').setup({
-  goimport='gopls', -- goimport command, can be gopls[default] or goimport
-  gofmt = 'gopls', --gofmt cmd,
-  max_line_len = 120, -- max line length in goline format
-  tag_transform = false, -- tag_transfer  check gomodifytags for details
-  test_template = '', -- default to testify if not set; g:go_nvim_tests_template  check gotests for details
-  test_template_dir = '', -- default to nil if not set; g:go_nvim_tests_template_dir  check gotests for details
-  comment_placeholder = 'ﳑ' ,  -- comment_placeholder your cool placeholder e.g.        
-  icons = {breakpoint = '', currentpos = '🏃'},
-  verbose = false,  -- output loginf in messages
+  goimport = 'gopls',        -- goimport command, can be gopls[default] or goimport
+  gofmt = 'gopls',           --gofmt cmd,
+  max_line_len = 120,        -- max line length in goline format
+  tag_transform = false,     -- tag_transfer  check gomodifytags for details
+  test_template = '',        -- default to testify if not set; g:go_nvim_tests_template  check gotests for details
+  test_template_dir = '',    -- default to nil if not set; g:go_nvim_tests_template_dir  check gotests for details
+  comment_placeholder = 'ﳑ', -- comment_placeholder your cool placeholder e.g.      
+  icons = { breakpoint = '', currentpos = '🏃' },
+  verbose = false,           -- output loginf in messages
   log_path = "/tmp/x-ray_go.log",
   lsp_cfg = {
     capabilities = lsp_cfg.capabilities,
@@ -26,16 +26,16 @@ require('go').setup({
         }
       }
     }
-  }, -- true: apply go.nvim non-default gopls setup, if it is a list, will merge with gopls setup e.g.
-                   -- lsp_cfg = {settings={gopls={matcher='CaseInsensitive', ['local'] = 'your_local_module_path', gofumpt = true }}}
-  lsp_gofumpt = false, -- true: set default gofmt in gopls format to gofumpt
+  },                                 -- true: apply go.nvim non-default gopls setup, if it is a list, will merge with gopls setup e.g.
+  -- lsp_cfg = {settings={gopls={matcher='CaseInsensitive', ['local'] = 'your_local_module_path', gofumpt = true }}}
+  lsp_gofumpt = false,               -- true: set default gofmt in gopls format to gofumpt
   lsp_on_attach = lsp_cfg.on_attach, -- if a on_attach function provided:  attach on_attach function to gopls
-                       -- true: will use go.nvim on_attach if true
-                       -- nil/false do nothing
+  -- true: will use go.nvim on_attach if true
+  -- nil/false do nothing
   lsp_fmt_async = true,
-  lsp_codelens = true, -- set to false to disable codelens, true by default
-  lsp_diag_hdlr = true, -- hook lsp diag handler
-  lsp_diag_underline = true,
+  lsp_codelens = true,   -- set to false to disable codelens, true by default
+  lsp_diag_hdlr = false, -- hook lsp diag handler
+  lsp_diag_underline = false,
   lsp_diag_update_in_insert = false,
   lsp_inlay_hints = {
     enable = true,
@@ -67,40 +67,49 @@ require('go').setup({
     highlight = "Comment",
   },
 
-  luasnip = false, -- set true to enable included luasnip
-  gopls_remote_auto = true, -- add -remote=auto to gopls
-  gopls_cmd = {"/Users/bingjia.chen/go/bin/gopls", "-logfile", "/tmp/gopls.log" }, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
-  fillstruct = 'gopls', -- can be nil (use fillstruct, slower) and gopls
+  luasnip = false,                                                                  -- set true to enable included luasnip
+  gopls_remote_auto = true,                                                         -- add -remote=auto to gopls
+  gopls_cmd = { "/Users/bingjia.chen/go/bin/gopls", "-logfile", "/tmp/gopls.log" }, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
+  fillstruct = 'gopls',                                                             -- can be nil (use fillstruct, slower) and gopls
 
-  dap_debug = true, -- set to false to disable dap
+  dap_debug = true,                                                                 -- set to false to disable dap
   --float term recommand if you use richgo/ginkgo with terminal color
-  dap_debug_keymap = true, -- set keymaps for debugger
-  dap_debug_gui = true, -- set to tru to enable dap gui, highly recommand
-  dap_debug_vt = true, -- set to true to enable dap virtual text
+  dap_debug_keymap = true,                                                          -- set keymaps for debugger
+  dap_debug_gui = true,                                                             -- set to tru to enable dap gui, highly recommand
+  dap_debug_vt = true,                                                              -- set to true to enable dap virtual text
   dap_retries = 20,
-  dap_timeout = 15, --  see dap option initialize_timeout_sec = 15,
+  dap_timeout = 15,                                                                 --  see dap option initialize_timeout_sec = 15,
   dap_port = 38697,
 
 
   run_in_floaterm = false, -- set to true to run in float window.
-  textobjects = true, -- enable default text jobects through treesittter-text-objects
-  test_runner = 'go', -- richgo, go test, richgo, dlv, ginkgo
-  build_tags = "" -- set default build tags
+  textobjects = true,      -- enable default text jobects through treesittter-text-objects
+  test_runner = 'go',      -- richgo, go test, richgo, dlv, ginkgo
+  build_tags = "kyc"       -- set default build tags
 })
+
+local function setTimeout(callback, ms)
+  local timer = uv.new_timer()
+  timer:start(ms, 0, function()
+    timer:close()
+    callback()
+  end)
+  return timer
+end
 
 -- Format/GoImport on save
-local format_sync_grp = vim.api.nvim_create_augroup("GoImport", {})
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
-  callback = function()
-   require('go.format').goimport()
-  end,
-  group = format_sync_grp,
-})
-
-vim.cmd("autocmd FileType go nmap <Leader><Leader>l GoLint")
-vim.cmd("autocmd FileType go nmap <Leader>gc :lua require('go.comment').gen()")
-
+-- local format_sync_grp = vim.api.nvim_create_augroup("GoImport", {})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*.go",
+--   callback = function()
+--     -- local promise = require('promise')
+--     -- promise(function(resolve, reject)
+--     require('go.format').goimport()
+--     --
+--     -- vim.lsp.buf.format { async = true }
+--   end,
+--   group = format_sync_grp,
+-- })
 
 -- local lsp_installer_servers = require'nvim-lsp-installer.servers'
 -- local server_available, requested_server = lsp_installer_servers.get_server("gopls")
@@ -114,4 +123,4 @@ vim.cmd("autocmd FileType go nmap <Leader>gc :lua require('go.comment').gen()")
 --         requested_server:install()
 --     end
 -- end
--- 
+--

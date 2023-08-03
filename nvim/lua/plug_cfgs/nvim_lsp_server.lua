@@ -1,5 +1,5 @@
 local M = {}
- -- For example, a handler override for the `rust_analyzer`:
+-- For example, a handler override for the `rust_analyzer`:
 require("mason").setup({
   providers = {
     "mason.providers.client",
@@ -61,61 +61,75 @@ local function goto_definition(split_cmd)
 
   return handler
 end
-  --
+--
 -- setup diagnostic
-vim.diagnostic.config({
-  virtual_text = {
-    space = 10
-  },
-  signs = signs,
-  underline = {
-    severity = vim.diagnostic.severity.ERROR,
-  },
-  update_in_insert = true,
-  severity_sort = false,
-  float = {
-    source = "if_many",  -- Or "if_many"
-  },
-})
-
 local signs = { Error = "", Warn = '', Hint = '', Info = '' }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
+vim.diagnostic.config({
+  virtual_text = {
+    source = 'always',
+    prefix = '■',
+    -- Only show virtual text matching the given severity
+    severity = {
+      -- Specify a range of severities
+      min = vim.diagnostic.severity.ERROR,
+    },
+  },
+  float = {
+    source = 'always',
+    border = 'rounded',
+  },
+  signs = signs,
+  underline = false,
+  update_in_insert = false,
+  severity_sort = true,
+  -- signs = signs,
+  -- underline = {
+  --   severity = vim.diagnostic.severity.ERROR,
+  -- },
+  -- update_in_insert = true,
+  -- severity_sort = false,
+  -- float = {
+  --   source = "if_many",  -- Or "if_many"
+  -- },
+})
+
 M.handlers = {
   ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
   ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
   ["textDocument/definition"] = goto_definition('split'),
-  ["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = {
-          source = 'always',
-          prefix = '■',
-          -- Only show virtual text matching the given severity
-          severity = {
-            -- Specify a range of severities
-            min = vim.diagnostic.severity.ERROR,
-          },
-        },
-        float = {
-          source = 'always',
-          border = 'rounded',
-        },
-        signs = true,
-        underline = false,
-        update_in_insert = false,
-        severity_sort = true,
-      }
-    )
-  }
+  -- ["textDocument/publishDiagnostics"] = vim.lsp.with(
+  --     vim.lsp.diagnostic.on_publish_diagnostics, {
+  --       virtual_text = {
+  --         source = 'always',
+  --         prefix = '■',
+  --         -- Only show virtual text matching the given severity
+  --         severity = {
+  --           -- Specify a range of severities
+  --           min = vim.diagnostic.severity.ERROR,
+  --         },
+  --       },
+  --       float = {
+  --         source = 'always',
+  --         border = 'rounded',
+  --       },
+  --       signs = true,
+  --       underline = false,
+  --       update_in_insert = false,
+  --       severity_sort = true,
+  --     }
+  --   )
+}
 
 function M.on_attach(client, bufnr)
-  local opts = { noremap = true, silent = true}
+  local opts = { noremap = true, silent = true }
 
-  vim.keymap.set('n', '<space>e',  vim.diagnostic.open_float, opts)
-  vim.keymap.set('n', '<space>q',  vim.diagnostic.setloclist, opts)
+  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+  vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
   -- Mappings.
@@ -123,17 +137,18 @@ function M.on_attach(client, bufnr)
   -- telescope
 
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<leader>M',function ()
+  vim.keymap.set('n', '<leader>M', function()
     vim.lsp.buf.format { async = true }
-  end , opts)
-  vim.keymap.set('n', '<C-k>',     vim.lsp.buf.signature_help, opts)
+  end, opts)
+
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
   vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
   vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
 
   -- Set some keybinds conditional on server capabilities
-  vim.keymap.set('n', '<space>F', function() vim.lsp.buf.format { async = true } end, opts)
+  vim.keymap.set('n', '<leader>F', function() vim.lsp.buf.format { async = true } end, opts)
 
   -- Set autocommands conditional on server_capabilities
   if client.server_capabilities.document_highlight then
@@ -148,7 +163,6 @@ function M.on_attach(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   --
   -- require('nvim-navbuddy').attach(client, bufnr)
-
 end
 
 M.lsp_flags = {
@@ -159,8 +173,8 @@ M.lsp_flags = {
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true
+  dynamicRegistration = false,
+  lineFoldingOnly = true
 }
 M.capabilities = capabilities
 
@@ -174,7 +188,7 @@ require("mason-lspconfig").setup_handlers {
       capabilities = M.capabilities,
       handlers = M.handlers,
       on_attach = M.on_attach,
-      flags = Mlsp_flags,
+      flags = M.lsp_flags,
     }
   end,
 }

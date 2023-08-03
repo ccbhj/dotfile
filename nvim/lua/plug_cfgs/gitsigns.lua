@@ -19,14 +19,32 @@ require('gitsigns').setup {
       vim.keymap.set(mode, l, r, opts)
     end
 
-    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+  local set_nmap = function (key, cmd) 
+      vim.keymap.set(
+          'n',
+          key,
+          cmd,
+          {}
+      )
+  end
+
 
     -- Actions
-    map('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-    map('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-    map('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-    map('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('n', ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function() gs.next_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    map('n', '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function() gs.prev_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+    map('n', '<leader>hs', '<cmd>Gitsigns stage_hunk<CR>')
+    map('v', '<leader>hs', '<cmd>Gitsigns stage_hunk<CR>')
+    map('n', '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>')
+    map('v', '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>')
     map('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
     map('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
     map('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
@@ -37,7 +55,7 @@ require('gitsigns').setup {
     map('n', '<leader>hD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
     map('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
     -- Text objects
-    map("n", "ih",  ':<C-U>Gitsigns select_hunk<CR>')
+    map("v", "ih",  ':<C-U>Gitsigns select_hunk<CR>')
     map("x", "ih",  ':<C-U>Gitsigns select_hunk<CR>')
 
     map("n", "dh", ":diffget local <CR>")

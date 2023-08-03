@@ -22,15 +22,17 @@ local plugins = {
   'tpope/vim-repeat',
   'tpope/vim-surround',
   'tpope/vim-fugitive',
+
+  {'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async'},
+  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
   {
-    'plasticboy/vim-markdown',
-    ft = { 'md' },
+    "iamcco/markdown-preview.nvim",
+    build = "cd app && npm install",
+    ft = { "markdown" }, 
+    cmd = "MarkdownPreview",
   },
-  {
-    'instant-markdown/vim-instant-markdown',
-    ft = { 'md' },
-    build = 'yarn install'
-  },
+
+  --
   --  {
   --   'nvim-lualine/lualine.nvim',
   --   requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -130,9 +132,13 @@ local plugins = {
     cmd = {"Translate", "TranslateH", "TranslateL", "TranslateW", "TranslateR", "TranslateX"}
   },
 
+  
   {
     'ray-x/go.nvim',
     ft = {"go", "gomod"},
+    dependencies = {
+      { 'kevinhwang91/promise-async'},
+    }
   },
 
   {
@@ -143,7 +149,7 @@ local plugins = {
   'catppuccin/nvim',
   'akinsho/bufferline.nvim',
   "jbyuki/venn.nvim",
-  'nvim-orgmode/orgmode',
+  {'nvim-orgmode/orgmode', ft = {"org"}},
 
   "folke/which-key.nvim",
   'willchao612/vim-diagon',
@@ -161,7 +167,11 @@ local plugins = {
   { "stevearc/oil.nvim"},
   "LunarVim/bigfile.nvim",
 
-  {'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async'},
+  { 'michaelb/sniprun', build = 'sh ./install.sh', cmd = "SnipRun"},
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+  }
 }
 
 local opts = {
