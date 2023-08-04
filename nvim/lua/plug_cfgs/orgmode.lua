@@ -34,8 +34,13 @@ require('orgmode').setup({
           string.format('%s: <%s>', task.type, task.time:to_string())
         })
       end
+      -- if not vim.tbl_isempty(result) then
+      --   require('orgmode.notifications.notification_popup'):new({ content = result })
+      -- end
       if not vim.tbl_isempty(result) then
-        require('orgmode.notifications.notification_popup'):new({ content = result })
+        require("noice").notify(result, "info", {
+          title = "orgmode"
+        })
       end
     end,
     cron_notifier = function(tasks)

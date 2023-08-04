@@ -23,12 +23,12 @@ local plugins = {
   'tpope/vim-surround',
   'tpope/vim-fugitive',
 
-  {'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async'},
-  {"ellisonleao/glow.nvim", config = true, cmd = "Glow"},
+  { 'kevinhwang91/nvim-ufo', dependencies = 'kevinhwang91/promise-async' },
+  { "ellisonleao/glow.nvim", config = true,                              cmd = "Glow" },
   {
     "iamcco/markdown-preview.nvim",
     build = "cd app && npm install",
-    ft = { "markdown" }, 
+    ft = { "markdown" },
     cmd = "MarkdownPreview",
   },
 
@@ -88,29 +88,32 @@ local plugins = {
   'sindrets/diffview.nvim',
 
 
+  -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+  { "folke/neodev.nvim" },
+
   "williamboman/mason.nvim",
   "williamboman/mason-lspconfig.nvim",
   'neovim/nvim-lspconfig',
 
   {
-   'L3MON4D3/LuaSnip',
-   lazy = false,
-   dependencies = {
-    -- 'rafamadriz/friendly-snippets',
-    'saadparwaiz1/cmp_luasnip',
-    'quangnguyen30192/cmp-nvim-tags',
-    'onsails/lspkind.nvim',
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp',
-    'ray-x/cmp-treesitter',
-    'hrsh7th/cmp-nvim-lsp-document-symbol',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
-    'petertriho/cmp-git',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-  }
-},
+    'L3MON4D3/LuaSnip',
+    lazy = false,
+    dependencies = {
+      -- 'rafamadriz/friendly-snippets',
+      'saadparwaiz1/cmp_luasnip',
+      'quangnguyen30192/cmp-nvim-tags',
+      'onsails/lspkind.nvim',
+      'hrsh7th/nvim-cmp',
+      'hrsh7th/cmp-nvim-lsp',
+      'ray-x/cmp-treesitter',
+      'hrsh7th/cmp-nvim-lsp-document-symbol',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'petertriho/cmp-git',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+    }
+  },
 
 
   'kyazdani42/nvim-tree.lua',
@@ -129,27 +132,34 @@ local plugins = {
 
   {
     'voldikss/vim-translator',
-    cmd = {"Translate", "TranslateH", "TranslateL", "TranslateW", "TranslateR", "TranslateX"}
+    cmd = { "Translate", "TranslateH", "TranslateL", "TranslateW", "TranslateR", "TranslateX" }
   },
 
-  
+
   {
     'ray-x/go.nvim',
-    ft = {"go", "gomod"},
+    ft = { "go", "gomod" },
     dependencies = {
-      { 'kevinhwang91/promise-async'},
+      { 'kevinhwang91/promise-async' },
     }
   },
 
   {
     'simrat39/rust-tools.nvim',
-    ft = {"rust"},
+    ft = { "rust" },
   },
 
   'catppuccin/nvim',
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+
   'akinsho/bufferline.nvim',
   "jbyuki/venn.nvim",
-  {'nvim-orgmode/orgmode', ft = {"org"}},
+  { 'nvim-orgmode/orgmode', ft = { "org" } },
 
   "folke/which-key.nvim",
   'willchao612/vim-diagon',
@@ -160,18 +170,30 @@ local plugins = {
       "neovim/nvim-lspconfig",
       "SmiteshP/nvim-navic",
       "MunifTanjim/nui.nvim",
-      "numToStr/Comment.nvim",        -- Optional
+      "numToStr/Comment.nvim", -- Optional
     }
   },
 
-  { "stevearc/oil.nvim"},
+  { "stevearc/oil.nvim" },
   "LunarVim/bigfile.nvim",
 
-  { 'michaelb/sniprun', build = 'sh ./install.sh', cmd = "SnipRun"},
+  { 'michaelb/sniprun', build = 'sh ./install.sh', cmd = "SnipRun" },
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-  }
+  },
+ {
+   "folke/noice.nvim",
+   event = "VeryLazy",
+   dependencies = {
+     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+     "MunifTanjim/nui.nvim",
+     -- OPTIONAL:
+     --   `nvim-notify` is only needed, if you want to use the notification view.
+     --   If not available, we use `mini` as the fallback
+     "rcarriga/nvim-notify",
+   }
+ }
 }
 
 local opts = {

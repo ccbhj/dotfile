@@ -52,6 +52,13 @@ set.encoding="utf-8"
 
 set.termguicolors = true
 set.autochdir=true
+set.shortmess="sWIcF"
+set.updatetime = 100
+set.redrawtime = 1500
+set.timeout = true
+set.ttimeout = true
+set.timeoutlen = 500
+set.ttimeoutlen = 10
 
 vim.cmd('language en_US.UTF-8')
 

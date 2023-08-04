@@ -4,6 +4,7 @@ require('telescope').load_extension('project')
 require('telescope').load_extension('neoclip')
 require('telescope').load_extension('vim_bookmarks')
 require("telescope").load_extension("file_browser")
+require("telescope").load_extension("noice")
 
 local themes = require('telescope.themes')
 local actions = require('telescope.actions')

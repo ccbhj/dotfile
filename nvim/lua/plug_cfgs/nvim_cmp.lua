@@ -1,5 +1,5 @@
 -- Setup nvim-cmp.
-local cmp = require'cmp'
+local cmp = require 'cmp'
 local compare = require('cmp.config.compare')
 local types = require('cmp.types')
 local luasnip = require 'luasnip'
@@ -16,7 +16,7 @@ end
 local luasnip = require("luasnip")
 local cmp = require("cmp")
 
-vim.g.completeopt="menu,menuone,noselect"
+vim.g.completeopt = "menu,menuone,noselect"
 
 local default_cmp_sources = {
   { name = 'nvim_lsp', },
@@ -24,29 +24,29 @@ local default_cmp_sources = {
   { name = 'luasnip' },
   { name = 'orgmode' },
   { name = 'nvim_lsp_signature_help' },
-  { name = 'buffer'  },
+  { name = 'buffer' },
 }
 
 cmp.setup({
-  formatting = {
-    fields = { "kind", "abbr", "menu" },
-    format = function(entry, vim_item) 
-      local kind = lspkind.cmp_format({ mode = 'symbol_text', -- show only symbol annotations
-        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-      }) (entry, vim_item)
-      local strings = vim.split(kind.kind, "%s", { trimempty = true })
-      kind.kind = " " .. strings[1] .. " "
-
-      local function isempty(s)
-        return s == nil or s == ''
-      end
-
-      if not isempty(strings[2]) then 
-        kind.menu = "    (" .. strings[2] .. ")"
-      end
-      return kind
-    end
-  },
+  --  formatting = {
+  --    fields = { "kind", "abbr", "menu" },
+  --    format = function(entry, vim_item)
+  --      local kind = lspkind.cmp_format({ mode = 'symbol_text', -- show only symbol annotations
+  --        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+  --      }) (entry, vim_item)
+  --      local strings = vim.split(kind.kind, "%s", { trimempty = true })
+  --      kind.kind = " " .. strings[1] .. " "
+  --
+  --      local function isempty(s)
+  --        return s == nil or s == ''
+  --      end
+  --
+  --      if not isempty(strings[2]) then
+  --        kind.menu = "    (" .. strings[2] .. ")"
+  --      end
+  --      return kind
+  --    end
+  --  },
 
   snippet = {
     expand = function(args)
@@ -76,7 +76,7 @@ cmp.setup({
   --   get_commit_characters = function(commit_characters)
   --     return commit_characters
   --   end,
-  -- }, 
+  -- },
 
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -121,19 +121,19 @@ cmp.setup({
   sources = default_cmp_sources,
 })
 
-local setup_specific_source = function ()
+local setup_specific_source = function()
   -- Set configuration for specific filetype.
   cmp.setup.filetype('gitcommit', {
     sources = cmp.config.sources({
       { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
     }, {
-        { name = 'buffer' },
-      })
+      { name = 'buffer' },
+    })
   })
 
   cmp.setup.cmdline({ '/', '?' }, {
     mapping = cmp.mapping.preset.cmdline(),
-    entries = {name = 'wildmenu', separator = '|' },
+    entries = { name = 'wildmenu', separator = '|' },
     sources = {
       { name = 'buffer' },
       { name = 'nvim_lsp_document_symbol' }
@@ -144,8 +144,8 @@ local setup_specific_source = function ()
   cmp.setup.cmdline(':', {
     mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
-      { name = 'path' }
-    },
+        { name = 'path' }
+      },
       {
         {
           name = 'cmdline',
@@ -170,14 +170,14 @@ end
 -- If a file is too large, I don't want to add to it's cmp sources treesitter, see:
 -- https://github.com/hrsh7th/nvim-cmp/issues/1522
 vim.api.nvim_create_autocmd('BufReadPre', {
- callback = function(t)
-   local sources = default_cmp_sources
-   if not bufIsBig(t.buf) then
-     sources[#sources+1] = {name = 'treesitter', group_index = 2}
-   end
-   cmp.setup.buffer {
-     sources = sources
-   }
-   setup_specific_source()
- end
+  callback = function(t)
+    local sources = default_cmp_sources
+    if not bufIsBig(t.buf) then
+      sources[#sources + 1] = { name = 'treesitter', group_index = 2 }
+    end
+    cmp.setup.buffer {
+      sources = sources
+    }
+    setup_specific_source()
+  end
 })
