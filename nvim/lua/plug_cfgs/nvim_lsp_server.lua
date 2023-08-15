@@ -191,6 +191,21 @@ require("mason-lspconfig").setup_handlers {
       flags = M.lsp_flags,
     }
   end,
+  ["elixirls"] = function ()
+    require("lspconfig")["elixirls"].setup {
+      capabilities = M.capabilities,
+      handlers = M.handlers,
+      on_attach = M.on_attach,
+      flags = M.lsp_flags,
+      cmd = {"elixir-ls"},
+      setttings = {
+        dialyzerEnabled = true,
+        fetchDeps = false,
+        enableTestLenses = false,
+        suggestSpecs = false,
+      }
+    }
+  end
 }
 
 return M

@@ -87,5 +87,4 @@ end
 set_map('<F6>', ":lua compile_and_run()<CR>")
 
 
--- set_map('<leader>dl', ":diffget remote <CR>")
--- set_map('<leader>dh', ":diffget local <CR>")
+set_map('<F9>', ":set spell!<CR>")

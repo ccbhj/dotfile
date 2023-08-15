@@ -71,13 +71,16 @@ local plugins = {
   'nvim-lua/plenary.nvim',
   'nvim-telescope/telescope.nvim',
   {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+  },
+  {
     'nvim-telescope/telescope-fzf-native.nvim',
     build = 'make',
   },
   'matveyt/neoclip',
   'nvim-telescope/telescope-project.nvim',
   'tom-anders/telescope-vim-bookmarks.nvim',
-  'nvim-telescope/telescope-file-browser.nvim',
   'AckslD/nvim-neoclip.lua',
   'kyazdani42/nvim-web-devicons',
   'mortepau/codicons.nvim',
@@ -96,14 +99,14 @@ local plugins = {
   'neovim/nvim-lspconfig',
 
   {
-    'L3MON4D3/LuaSnip',
+    'hrsh7th/nvim-cmp',
     lazy = false,
     dependencies = {
+      { 'L3MON4D3/LuaSnip', lazy = false },
       -- 'rafamadriz/friendly-snippets',
       'saadparwaiz1/cmp_luasnip',
       'quangnguyen30192/cmp-nvim-tags',
       'onsails/lspkind.nvim',
-      'hrsh7th/nvim-cmp',
       'hrsh7th/cmp-nvim-lsp',
       'ray-x/cmp-treesitter',
       'hrsh7th/cmp-nvim-lsp-document-symbol',
@@ -182,18 +185,21 @@ local plugins = {
     "folke/flash.nvim",
     event = "VeryLazy",
   },
- {
-   "folke/noice.nvim",
-   event = "VeryLazy",
-   dependencies = {
-     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-     "MunifTanjim/nui.nvim",
-     -- OPTIONAL:
-     --   `nvim-notify` is only needed, if you want to use the notification view.
-     --   If not available, we use `mini` as the fallback
-     "rcarriga/nvim-notify",
-   }
- }
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    }
+  },
+  { 'kevinhwang91/nvim-ufo',        dependencies = 'kevinhwang91/promise-async' },
+  { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
+  { "ellisonleao/glow.nvim",        config = true,                              cmd = "Glow" }
 }
 
 local opts = {
