@@ -25,6 +25,7 @@ local default_cmp_sources = {
   { name = 'orgmode' },
   { name = 'nvim_lsp_signature_help' },
   { name = 'buffer' },
+  -- { name = 'nvlime' },
 }
 
 cmp.setup({
@@ -181,3 +182,15 @@ vim.api.nvim_create_autocmd('BufReadPre', {
     setup_specific_source()
   end
 })
+
+-- cmp.setup.filetype({ 'lisp' }, {
+--   sources = {
+--     table.insert(default_cmp_sources, { name = 'nvlime' }),
+--   }
+-- })
+-- 
+-- for nvim-cmp
+cmp.event:on(
+  'confirm_done',
+  require('nvim-autopairs.completion.cmp').on_confirm_done()
+)

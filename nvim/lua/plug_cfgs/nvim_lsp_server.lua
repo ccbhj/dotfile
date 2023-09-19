@@ -191,13 +191,13 @@ require("mason-lspconfig").setup_handlers {
       flags = M.lsp_flags,
     }
   end,
-  ["elixirls"] = function ()
+  ["elixirls"] = function()
     require("lspconfig")["elixirls"].setup {
       capabilities = M.capabilities,
       handlers = M.handlers,
       on_attach = M.on_attach,
       flags = M.lsp_flags,
-      cmd = {"elixir-ls"},
+      cmd = { "elixir-ls" },
       setttings = {
         dialyzerEnabled = true,
         fetchDeps = false,
@@ -205,7 +205,15 @@ require("mason-lspconfig").setup_handlers {
         suggestSpecs = false,
       }
     }
-  end
+  end,
+}
+
+require("lspconfig")["racket_langserver"].setup {
+  capabilities = M.capabilities,
+  handlers = M.handlers,
+  on_attach = M.on_attach,
+  flags = M.lsp_flags,
+  cmd = { "racket", "--lib", "racket-langserver" },
 }
 
 return M

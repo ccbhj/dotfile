@@ -16,7 +16,7 @@ local plugins = {
   'wbthomason/packer.nvim',
 
   'AndrewRadev/splitjoin.vim',
-  'jiangmiao/auto-pairs',
+  -- 'jiangmiao/auto-pairs',
   --  'mdempsky/gocode' { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh', 'for': 'go'}
   -- 'tpope/vim-commentary',
   'tpope/vim-repeat',
@@ -30,6 +30,11 @@ local plugins = {
     build = "cd app && npm install",
     ft = { "markdown" },
     cmd = "MarkdownPreview",
+  },
+
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
   },
 
   --
@@ -199,7 +204,26 @@ local plugins = {
   },
   { 'kevinhwang91/nvim-ufo',        dependencies = 'kevinhwang91/promise-async' },
   { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
-  { "ellisonleao/glow.nvim",        config = true,                              cmd = "Glow" }
+  { "ellisonleao/glow.nvim",        config = true,                              cmd = "Glow" },
+  { 'gpanders/nvim-parinfer' },
+  -- lisp
+  {
+    'monkoose/nvlime',
+    dependencies = {
+      'monkoose/parsley',
+    },
+    ft = { "lisp" },
+  },
+
+  -- racket
+  {
+    'wlangstroth/vim-racket',
+    ft = { "racket" },
+  },
+  { "PaterJason/cmp-conjure", ft = { "racket" } },
+
+
+  { "Olical/conjure" },
 }
 
 local opts = {

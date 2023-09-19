@@ -11,6 +11,6 @@
 vim.b.surround_indent=1
 -- inoremap <buffer> <silent> <BS> <C-R>=AutoPairsDelete()<CR>
 
-vim.g.AutoPairsShortcutFastWrap='<C-e>'
-vim.g.AutoPairsShortcutJump='<leader>j'
-vim.g.AutoPairsShortcutToggle='<leader>p'
+-- vim.g.AutoPairsShortcutFastWrap='<C-e>'
+-- vim.g.AutoPairsShortcutJump='<leader>j'
+-- vim.g.AutoPairsShortcutToggle='<leader>p'
