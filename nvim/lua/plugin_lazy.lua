@@ -13,9 +13,12 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
 
-  'wbthomason/packer.nvim',
+  "folke/which-key.nvim",
+  -- 'wbthomason/packer.nvim',
 
-  'AndrewRadev/splitjoin.vim',
+  -- 'AndrewRadev/splitjoin.vim',
+  "windwp/nvim-autopairs",
+
   -- 'jiangmiao/auto-pairs',
   --  'mdempsky/gocode' { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh', 'for': 'go'}
   -- 'tpope/vim-commentary',
@@ -62,6 +65,14 @@ local plugins = {
   {
     'vim-scripts/AnsiEsc.vim',
     cmd = "AnsiEsc",
+  },
+
+  {
+    "monkoose/nvlime",
+    dependencies = {
+      "monkoose/parsley",
+      "gpanders/nvim-parinfer",
+    }
   },
 
   'mfussenegger/nvim-dap',
@@ -136,7 +147,6 @@ local plugins = {
   'romgrk/nvim-treesitter-context',
   'nvim-treesitter/nvim-treesitter-textobjects',
   'p00f/nvim-ts-rainbow',
-  'windwp/nvim-autopairs',
 
   {
     'voldikss/vim-translator',
@@ -169,7 +179,6 @@ local plugins = {
   "jbyuki/venn.nvim",
   { 'nvim-orgmode/orgmode', ft = { "org" } },
 
-  "folke/which-key.nvim",
   'willchao612/vim-diagon',
 
   {
@@ -227,7 +236,6 @@ local plugins = {
 }
 
 local opts = {
-
 }
 
 require("lazy").setup(plugins, opts)

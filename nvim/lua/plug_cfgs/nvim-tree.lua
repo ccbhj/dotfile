@@ -1,3 +1,4 @@
+local wk = require("which-key")
 require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
   create_in_closed_folder = false,
@@ -163,4 +164,17 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
     },
   },
 } -- END_DEFAULT_OPTS
-vim.api.nvim_set_keymap("n", "<F4>", ":NvimTreeToggle<CR>", {noremap = true, silent = true})
+
+local function change_root_to_global_cwd()
+  local api = require("nvim-tree.api")
+  local global_cwd = vim.fn.getcwd(-1, -1)
+  api.tree.change_root(global_cwd)
+end
+
+wk.register({
+  [ '<C-c>'] = { change_root_to_global_cwd, "Change Root to Global CWD"}
+}, { noremap = true, silent = true,  })
+
+wk.register({
+  [ '<F4>'] = { "<cmd> :NvimTreeToggle<cr>", "Toggle NvimTree" }
+}, { noremap = true, silent = true,  })

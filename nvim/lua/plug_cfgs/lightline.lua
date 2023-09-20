@@ -5,7 +5,7 @@ vim.g.lightline = {
     left = {
       { 'mode', 'paste' },
       { 'gitbranch', 'readonly', 'filename', 'modified' }
-    }
+    },
   },
   component_function = { gitbranch = 'FugitiveHead' },
   mode_map = {
@@ -19,6 +19,6 @@ vim.g.lightline = {
     S = 'SL',
   },
   component = {
-    lineinfo = '%3l:%-2v%<'
+    lineinfo = '%3l:%-2v%<%{abs(line(".") - line("v")) + 1}v'
   }
 }

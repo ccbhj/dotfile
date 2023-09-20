@@ -29,25 +29,26 @@ local default_cmp_sources = {
 }
 
 cmp.setup({
-  --  formatting = {
-  --    fields = { "kind", "abbr", "menu" },
-  --    format = function(entry, vim_item)
-  --      local kind = lspkind.cmp_format({ mode = 'symbol_text', -- show only symbol annotations
-  --        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-  --      }) (entry, vim_item)
-  --      local strings = vim.split(kind.kind, "%s", { trimempty = true })
-  --      kind.kind = " " .. strings[1] .. " "
-  --
-  --      local function isempty(s)
-  --        return s == nil or s == ''
-  --      end
-  --
-  --      if not isempty(strings[2]) then
-  --        kind.menu = "    (" .. strings[2] .. ")"
-  --      end
-  --      return kind
-  --    end
-  --  },
+  formatting = {
+    fields = { "kind", "abbr", "menu" },
+    format = function(entry, vim_item)
+      local kind = lspkind.cmp_format({
+        mode = 'symbol_text',                                 -- show only symbol annotations
+        maxwidth = 50,                                        -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+      })(entry, vim_item)
+      local strings = vim.split(kind.kind, "%s", { trimempty = true })
+      kind.kind = " " .. strings[1] .. " "
+
+      local function isempty(s)
+        return s == nil or s == ''
+      end
+
+      if not isempty(strings[2]) then
+        kind.menu = "    (" .. strings[2] .. ")"
+      end
+      return kind
+    end
+  },
 
   snippet = {
     expand = function(args)
@@ -190,6 +191,17 @@ vim.api.nvim_create_autocmd('BufReadPre', {
 -- })
 -- 
 -- for nvim-cmp
+
+-- require('cmp').setup.filetype({'lisp'}, {
+--     sources = table.insert(default_cmp_sources, { name = "nvlime"}),
+-- })
+
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
+
 cmp.event:on(
   'confirm_done',
   require('nvim-autopairs.completion.cmp').on_confirm_done()

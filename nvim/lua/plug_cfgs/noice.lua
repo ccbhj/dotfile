@@ -24,11 +24,11 @@ require("noice").setup  {
     -- NOTE: If you enable messagestrue, then the cmdline is enabled automatically.
     -- This is a current Neovim limitation.
     enabled = true, -- enables the Noice messages UI
-    view = "notify", -- default view for messages
-    view_error = "notify", -- view for errors
-    view_warn = "notify", -- view for warnings
-    view_history = "messages", -- view for :messages
-    view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+    view = "mini", -- default view for messages
+    view_error = "mini", -- view for errors
+    -- view_warn = "notify", -- view for warnings
+    -- view_history = "messages", -- view for :messages
+    -- view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
   },
   popupmenu = {
     enabled = false, -- enables the Noice popupmenu UI
@@ -94,7 +94,7 @@ require("noice").setup  {
     -- The default routes will forward notifications to nvim-notify
     -- Benefit of using Noice for this is the routing and consistent history view
     enabled = true,
-    view = "notify",
+    view = "mini",
     opts = {
       stages ="slide"
     },
@@ -172,7 +172,7 @@ require("noice").setup  {
     },
   },
   health = {
-    checker = true, -- Disable if you don't want health checks to run
+    checker = false, -- Disable if you don't want health checks to run
   },
   smart_move = {
     -- noice tries to move out of the way of existing floating windows.

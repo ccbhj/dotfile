@@ -85,7 +85,7 @@ require('go').setup({
   run_in_floaterm = false, -- set to true to run in float window.
   textobjects = true,      -- enable default text jobects through treesittter-text-objects
   test_runner = 'go',      -- richgo, go test, richgo, dlv, ginkgo
-  build_tags = "kyc"       -- set default build tags
+  -- build_tags = "kyc"       -- set default build tags
 })
 
 local function setTimeout(callback, ms)
