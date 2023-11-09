@@ -40,12 +40,16 @@ local plugins = {
     event = "InsertEnter",
   },
 
-  --
-  --  {
-  --   'nvim-lualine/lualine.nvim',
-  --   requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  -- }
-  'itchyny/lightline.vim',
+
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = {
+      'kyazdani42/nvim-web-devicons',
+      "meuter/lualine-so-fancy.nvim",
+    },
+
+  },
+  -- 'itchyny/lightline.vim',
 
   --   {
   --    'liuchengxu/vista.vim',
@@ -57,7 +61,7 @@ local plugins = {
   },
   -- 'stevearc/aerial.nvim',
   -- 'preservim/tagbar',
-  'lukas-reineke/indent-blankline.nvim',
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   -- 'cespare/vim-toml',
 
   --  'olimorris/onedarkpro.nvim'
@@ -193,8 +197,7 @@ local plugins = {
 
   { "stevearc/oil.nvim" },
   "LunarVim/bigfile.nvim",
-
-  { 'michaelb/sniprun', build = 'sh ./install.sh', cmd = "SnipRun" },
+  { 'michaelb/sniprun',             build = 'sh ./install.sh',                  cmd = "SnipRun" },
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -214,7 +217,7 @@ local plugins = {
   { 'kevinhwang91/nvim-ufo',        dependencies = 'kevinhwang91/promise-async' },
   { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
   { "ellisonleao/glow.nvim",        config = true,                              cmd = "Glow" },
-  { 'gpanders/nvim-parinfer' },
+
   -- lisp
   {
     'monkoose/nvlime',
@@ -229,9 +232,11 @@ local plugins = {
     'wlangstroth/vim-racket',
     ft = { "racket" },
   },
+  {
+    'gpanders/nvim-parinfer',
+    ft = { "racket" },
+  },
   { "PaterJason/cmp-conjure", ft = { "racket" } },
-
-
   { "Olical/conjure" },
 }
 

@@ -62,3 +62,6 @@ set.ttimeoutlen = 10
 
 vim.cmd('language en_US.UTF-8')
 
+
+-- nvim-parinfer
+vim.g.parinfer_mode = "indent"

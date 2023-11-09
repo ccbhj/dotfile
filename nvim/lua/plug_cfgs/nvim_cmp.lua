@@ -25,7 +25,6 @@ local default_cmp_sources = {
   { name = 'orgmode' },
   { name = 'nvim_lsp_signature_help' },
   { name = 'buffer' },
-  -- { name = 'nvlime' },
 }
 
 cmp.setup({

@@ -149,6 +149,7 @@ function M.on_attach(client, bufnr)
 
   -- Set some keybinds conditional on server capabilities
   vim.keymap.set('n', '<leader>F', function() vim.lsp.buf.format { async = true } end, opts)
+  vim.keymap.set('v', '<leader>F', function() vim.lsp.buf.format { async = true } end, opts)
 
   -- Set autocommands conditional on server_capabilities
   if client.server_capabilities.document_highlight then
@@ -197,7 +198,7 @@ require("mason-lspconfig").setup_handlers {
       handlers = M.handlers,
       on_attach = M.on_attach,
       flags = M.lsp_flags,
-      cmd = { "elixir-ls" },
+      cmd = { "/usr/local/bin/elixir-ls" },
       setttings = {
         dialyzerEnabled = true,
         fetchDeps = false,

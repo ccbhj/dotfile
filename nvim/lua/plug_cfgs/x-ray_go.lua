@@ -33,14 +33,20 @@ require('go').setup({
   -- true: will use go.nvim on_attach if true
   -- nil/false do nothing
   lsp_fmt_async = true,
-  lsp_codelens = true,   -- set to false to disable codelens, true by default
-  lsp_diag_hdlr = false, -- hook lsp diag handler
-  lsp_diag_underline = false,
+  diagnostic = {   -- set diagnostic to false to disable vim.diagnostic setup
+    hdlr = true,   -- hook lsp diag handler
+    underline = false,
+    -- virtual text setup
+    virtual_text = { space = 4, prefix = '■' },
+    signs = true,
+    update_in_insert = false,
+  },
+  lsp_codelens = true, -- set to false to disable codelens, true by default
   lsp_diag_update_in_insert = false,
   lsp_inlay_hints = {
     enable = true,
     -- Only show inlay hints for the current line
-    only_current_line = true,
+    only_current_line = false,
     -- Event which triggers a refersh of the inlay hints.
     -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
     -- not that this may cause higher CPU usage.
@@ -67,25 +73,25 @@ require('go').setup({
     highlight = "Comment",
   },
 
-  luasnip = false, -- set true to enable included luasnip
-  gopls_remote_auto = true, -- add -remote=auto to gopls
-  gopls_cmd = {"gopls", "-logfile", "/tmp/gopls.log" }, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
-  fillstruct = 'gopls', -- can be nil (use fillstruct, slower) and gopls
+  luasnip = false,                                      -- set true to enable included luasnip
+  gopls_remote_auto = true,                             -- add -remote=auto to gopls
+  gopls_cmd = { "gopls", "-logfile", "/tmp/gopls.log" }, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
+  fillstruct = 'gopls',                                 -- can be nil (use fillstruct, slower) and gopls
 
-  dap_debug = true,                                                                 -- set to false to disable dap
+  dap_debug = true,                                     -- set to false to disable dap
   --float term recommand if you use richgo/ginkgo with terminal color
-  dap_debug_keymap = true,                                                          -- set keymaps for debugger
-  dap_debug_gui = true,                                                             -- set to tru to enable dap gui, highly recommand
-  dap_debug_vt = true,                                                              -- set to true to enable dap virtual text
+  dap_debug_keymap = true,                              -- set keymaps for debugger
+  dap_debug_gui = true,                                 -- set to tru to enable dap gui, highly recommand
+  dap_debug_vt = true,                                  -- set to true to enable dap virtual text
   dap_retries = 20,
-  dap_timeout = 15,                                                                 --  see dap option initialize_timeout_sec = 15,
+  dap_timeout = 15,                                     --  see dap option initialize_timeout_sec = 15,
   dap_port = 38697,
 
 
   run_in_floaterm = false, -- set to true to run in float window.
   textobjects = true,      -- enable default text jobects through treesittter-text-objects
   test_runner = 'go',      -- richgo, go test, richgo, dlv, ginkgo
-  -- build_tags = "kyc"       -- set default build tags
+  build_tags = "kyc"       -- set default build tags
 })
 
 local function setTimeout(callback, ms)

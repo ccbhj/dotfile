@@ -1,30 +1,30 @@
 local wk = require("which-key")
 
-local set_nmap = function (key, cmd) 
-    vim.api.nvim_set_keymap(
-        'n',
-        key,
-        cmd,
-        {noremap = true, silent = true}
-    )
+local set_nmap = function(key, cmd)
+  vim.api.nvim_set_keymap(
+    'n',
+    key,
+    cmd,
+    { noremap = true, silent = true }
+  )
 end
 
-local set_imap = function (key, cmd) 
-    vim.api.nvim_set_keymap(
-        'i',
-        key,
-        cmd,
-        {noremap = true, silent = true}
-    )
+local set_imap = function(key, cmd)
+  vim.api.nvim_set_keymap(
+    'i',
+    key,
+    cmd,
+    { noremap = true, silent = true }
+  )
 end
 
-local set_map = function (key, cmd) 
-    vim.api.nvim_set_keymap(
-        '',
-        key,
-        cmd,
-        {}
-    )
+local set_map = function(key, cmd)
+  vim.api.nvim_set_keymap(
+    '',
+    key,
+    cmd,
+    {}
+  )
 end
 
 
@@ -67,24 +67,26 @@ set_map("<leader>0", ":tabn 10<cr>")
 function compile_and_run()
   local ft = vim.bo.filetype
   if ft == 'go' then
-    vim.api.nvim_command('!time go run %')
+    vim.api.nvim_command('!go run %')
   elseif ft == 'c' then
     vim.api.nvim_command('!gcc -Wall -g % -o /tmp/%<')
-    vim.api.nvim_command('!time /tmp/%<')
+    vim.api.nvim_command('! /tmp/%<')
   elseif ft == 'python' then
-    vim.api.nvim_command('!time python3 %') 
+    vim.api.nvim_command('!python3 %')
   elseif ft == 'sh' then
-    vim.api.nvim_command('!time ./%') 
+    vim.api.nvim_command('!./%')
   elseif ft == 'rust' then
-    vim.api.nvim_command('!time cargo run') 
-  elseif ft == 'lua' then 
-    vim.api.nvim_command('!time lua ./%') 
+    vim.api.nvim_command('!cargo run')
+  elseif ft == 'lua' then
+    vim.api.nvim_command('!lua ./%')
   elseif ft == 'elixir' then
-    vim.api.nvim_command('!time elixir ./%') 
+    vim.api.nvim_command('!elixir ./%')
   end
 end
 
 set_map('<F6>', ":lua compile_and_run()<CR>")
-
+set_map('<F6>', [[
+:lua require('noice').redirect(compile_and_run) <CR>
+]])
 
 set_map('<F9>', ":set spell!<CR>")
