@@ -1,11 +1,17 @@
 local catppuccin = require("catppuccin")
 
 catppuccin.setup({
+  -- floating_border = "auto" | "on" | "off"
+  floating_border = "off",
   flavour = "frappe", -- latte, frappe, macchiato, mocha
   transparent_background = false,
   term_colors = true,
+  background = { -- :h background
+    light = "latte",
+    dark = "mocha",
+  },
   compile = {
-    enabled = false,
+    enabled = true,
     path = vim.fn.stdpath("cache") .. "/catppuccin",
   },
   dim_inactive = {
@@ -27,6 +33,14 @@ catppuccin.setup({
     types = {},
     operators = {},
   },
+  custom_highlights = function(colors)
+    return {
+      -- Comment = { fg = colors.flamingo },
+      TabLineSel = { bg = colors.pink },
+      CmpBorder = { fg = colors.surface2 },
+      Pmenu = { bg = colors.base },
+    }
+  end,
   integrations = {
     native_lsp = {
       enabled = true,

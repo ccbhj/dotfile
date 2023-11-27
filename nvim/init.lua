@@ -4,16 +4,16 @@
 require("opt")
 require("map")
 require("extra")
-require("plug_cfgs.nvlime")
+-- require("plug_cfgs.nvlime")
 require("plugin_lazy")
 require("plug_cfgs.neodev")
+require("plug_cfgs.nvim_catppuccin")
 -- plugin config
 require("plug_cfgs.nvim_pair")
 -- require("plug_cfgs.lightline")
 require("plug_cfgs.lualine")
 require("plug_cfgs.nvim_autopairs")
 require("plug_cfgs.bufferline")
-require("plug_cfgs.nvim_catppuccin")
 require("plug_cfgs.indent_blankline")
 require("plug_cfgs.toggle_term")
 

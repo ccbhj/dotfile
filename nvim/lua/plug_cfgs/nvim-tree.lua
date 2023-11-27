@@ -171,3 +171,7 @@ wk.register({
 wk.register({
   [ '<F4>'] = { "<cmd> :NvimTreeToggle<cr>", "Toggle NvimTree" }
 }, { noremap = true, silent = true,  })
+
+wk.register({
+  [ '<F5>'] = { "<cmd> ::NvimTreeFindFile!<cr>", "Toggle NvimTree and focus the current buffer" }
+}, { noremap = true, silent = true,  })

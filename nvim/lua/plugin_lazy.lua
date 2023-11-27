@@ -13,6 +13,11 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
 
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000
+  },
   "folke/which-key.nvim",
   -- 'wbthomason/packer.nvim',
 
@@ -120,9 +125,10 @@ local plugins = {
 
   {
     'hrsh7th/nvim-cmp',
-    lazy = false,
+    lazy = true,
+    event = "InsertEnter",
     dependencies = {
-      { 'L3MON4D3/LuaSnip', lazy = false },
+      { 'L3MON4D3/LuaSnip', lazy = true },
       -- 'rafamadriz/friendly-snippets',
       'saadparwaiz1/cmp_luasnip',
       'quangnguyen30192/cmp-nvim-tags',
@@ -171,7 +177,6 @@ local plugins = {
     ft = { "rust" },
   },
 
-  'catppuccin/nvim',
   {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -179,7 +184,12 @@ local plugins = {
     opts = {},
   },
 
-  'akinsho/bufferline.nvim',
+  {
+    'akinsho/bufferline.nvim',
+    -- dependencies = {
+    --   "catppuccin/nvim",
+    -- }
+  },
   "jbyuki/venn.nvim",
   { 'nvim-orgmode/orgmode', ft = { "org" } },
 

@@ -99,8 +99,8 @@ vim.diagnostic.config({
 })
 
 M.handlers = {
-  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+  ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+  ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
   ["textDocument/definition"] = goto_definition('split'),
   -- ["textDocument/publishDiagnostics"] = vim.lsp.with(
   --     vim.lsp.diagnostic.on_publish_diagnostics, {

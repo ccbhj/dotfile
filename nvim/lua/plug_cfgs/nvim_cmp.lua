@@ -32,8 +32,8 @@ cmp.setup({
     fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
       local kind = lspkind.cmp_format({
-        mode = 'symbol_text',                                 -- show only symbol annotations
-        maxwidth = 50,                                        -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        mode = 'symbol_text', -- show only symbol annotations
+        maxwidth = 50,        -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
       })(entry, vim_item)
       local strings = vim.split(kind.kind, "%s", { trimempty = true })
       kind.kind = " " .. strings[1] .. " "
@@ -61,14 +61,18 @@ cmp.setup({
     end,
   },
 
-  preselect = types.cmp.PreselectMode.None,
+  preselect = cmp.PreselectMode.None,
 
   window = {
+    completion = cmp.config.window.bordered({
+      -- winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+      -- scrollbar = nil,
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
+    }),
     documentation = {
       border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-      winhighlight = 'NormalFloat:NormalFloat,FloatBorder:NormalFloat',
-      maxwidth = math.floor((WIDE_HEIGHT * 2) * (vim.o.columns / (WIDE_HEIGHT * 2 * 16 / 9))),
-      maxheight = math.floor(WIDE_HEIGHT * (WIDE_HEIGHT / vim.o.lines)),
+      winhighlight = "Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
     },
   },
 
@@ -158,7 +162,7 @@ local setup_specific_source = function()
   })
 end
 
-bufIsBig = function(bufnr)
+local bufIsBig = function(bufnr)
   local max_filesize = 100 * 1024 -- 100 KB
   local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
   if ok and stats and stats.size > max_filesize then
@@ -188,7 +192,7 @@ vim.api.nvim_create_autocmd('BufReadPre', {
 --     table.insert(default_cmp_sources, { name = 'nvlime' }),
 --   }
 -- })
--- 
+--
 -- for nvim-cmp
 
 -- require('cmp').setup.filetype({'lisp'}, {

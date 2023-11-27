@@ -1,0 +1,6 @@
+*/tags
+tags
+.vim-bookmarks
+.vim_bookmarks
+ nvim/lua/.luarc.json
+ nvim/lazy-lock.json
