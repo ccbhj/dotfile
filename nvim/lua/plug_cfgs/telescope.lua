@@ -10,16 +10,16 @@ local themes = require('telescope.themes')
 local actions = require('telescope.actions')
 local previewers = require('telescope.previewers')
 
-require'nvim-web-devicons'.setup {
- -- your personnal icons can go here (to override)
- -- DevIcon will be appended to `name`
- override = {};
- -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
- default = true;
+require 'nvim-web-devicons'.setup {
+  -- your personnal icons can go here (to override)
+  -- DevIcon will be appended to `name`
+  override = {},
+  -- globally enable default icons (default to false)
+  -- will get overriden by `get_icons` option
+  default = true,
 }
 
-local merge_tab = function (a, b)
+local merge_tab = function(a, b)
   for k, v in pairs(a) do
     b[k] = v
   end
@@ -61,7 +61,7 @@ local function flash(prompt_bufnr)
   })
 end
 
-require('telescope').setup{
+require('telescope').setup {
   defaults = {
     -- layout_strategy = 'bottom_pane',
     layout_config = {
@@ -69,7 +69,7 @@ require('telescope').setup{
       width = 0.90,
       height = 0.90,
     },
-    path_display = {"truncate", "smart"},
+    path_display = { "truncate", "smart" },
     buffer_previewer_maker = new_maker,
     mappings = {
       i = {
@@ -99,15 +99,15 @@ require('telescope').setup{
       base_dirs = {
         '~/org/',
         '~/c/',
-        {'~/go/src/', max_depth=1},
+        { '~/go/src/', max_depth = 1 },
       },
       hidden_files = false, -- default: false
     },
     fzf = {
-      fuzzy = true,                    -- false will only do exact matching
-      override_generic_sorter = true,  -- override the generic sorter
-      override_file_sorter = true,     -- override the file sorter
-      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+      fuzzy = true,                   -- false will only do exact matching
+      override_generic_sorter = true, -- override the generic sorter
+      override_file_sorter = true,    -- override the file sorter
+      case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
       -- the default case_mode is "smart_case"
     },
     file_browser = {
@@ -119,40 +119,40 @@ require('telescope').setup{
 }
 
 require('neoclip').setup({
-    history = 1000,
-    filter = nil,
-    preview = true,
-    default_register = '"',
-    content_spec_column = false,
-    on_paste = {
-        set_reg = false,
+  history = 1000,
+  filter = nil,
+  preview = true,
+  default_register = '"',
+  content_spec_column = false,
+  on_paste = {
+    set_reg = false,
+  },
+  keys = {
+    telescope = {
+      i = {
+        select = '<cr>',
+        paste = '<c-p>',
+        paste_behind = '<c-k>',
+        custom = {},
+      },
+      n = {
+        select = '<cr>',
+        paste = 'p',
+        paste_behind = 'P',
+        custom = {},
+      },
     },
-    keys = {
-        telescope = {
-            i = {
-                select = '<cr>',
-                paste = '<c-p>',
-                paste_behind = '<c-k>',
-                custom = {},
-            },
-            n = {
-                select = '<cr>',
-                paste = 'p',
-                paste_behind = 'P',
-                custom = {},
-            },
-        },
-    },
+  },
 })
 
 local builtin = require('telescope.builtin')
-local set_nmap = function (key, cmd) 
-    vim.keymap.set(
-        'n',
-        key,
-        cmd,
-        {}
-    )
+local set_nmap = function(key, cmd)
+  vim.keymap.set(
+    'n',
+    key,
+    cmd,
+    {}
+  )
 end
 
 set_nmap('<space>y', ':telescope neoclip<cr>')
@@ -172,7 +172,7 @@ set_nmap('<space>A', ":lua require('telescope').extensions.vim_bookmarks.all() <
 set_nmap('<space>q', ":lua require'telescope.builtin'.quickfix{}<cr>")
 
 
--- git 
+-- git
 set_nmap('<space>m', ":lua require'telescope.builtin'.marks{}<cr>")
 set_nmap('<space>B', ":lua require'telescope.builtin'.git_branches{}<cr>")
 set_nmap('<space>v', ":lua require'telescope.builtin'.git_files{}<cr>")
@@ -192,25 +192,28 @@ set_nmap('<space>?', ":lua require'telescope.builtin'.keymaps{}<cr>")
 set_nmap('<space>+', ":lua require'telescope.builtin'.pickers{}<cr>")
 
 
--- lsp
-set_nmap('gD', ":lua vim.lsp.buf.declaration()<cr>")
--- set_nmap('gd', ":lua require'telescope.builtin'.lsp_definitions(require('telescope.themes').get_cursor({jump_type='never'}))<cr>")
-set_nmap('gd', function () builtin.lsp_definitions() end)
-local get_cursor_opt={
-  jump_type='never',
-  layout_config={
+local get_cursor_opt = {
+  jump_type = 'never',
+  layout_config = {
     preview_width = 0.6,
     width = 0.8,
     height = 0.5,
   },
 }
-set_nmap('gy', function () builtin.lsp_type_definitions(themes.get_cursor(get_cursor_opt)) end)
+-- lsp
+-- set_nmap('gD', ":lua vim.lsp.buf.declaration()<cr>")
+set_nmap('gD', function()
+  builtin.lsp_definitions(themes.get_cursor(get_cursor_opt))
+end)
+-- set_nmap('gd', ":lua require'telescope.builtin'.lsp_definitions(require('telescope.themes').get_cursor({jump_type='never'}))<cr>")
+set_nmap('gd', function() builtin.lsp_definitions() end)
+set_nmap('gy', function() builtin.lsp_type_definitions(themes.get_cursor(get_cursor_opt)) end)
 set_nmap('gi', builtin.lsp_implementations)
 
-local dropdown_opt={
-  jump_type='never',
+local dropdown_opt = {
+  jump_type = 'never',
 }
-set_nmap('gr', function () builtin.lsp_references(dropdown_opt) end)
+set_nmap('gr', function() builtin.lsp_references(dropdown_opt) end)
 
 set_nmap('<space>s', function()
   builtin.lsp_document_symbols({

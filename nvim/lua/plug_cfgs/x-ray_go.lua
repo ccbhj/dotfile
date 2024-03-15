@@ -1,5 +1,6 @@
 local lsp_cfg = require("plug_cfgs.nvim_lsp_server")
 
+
 require('go').setup({
   goimport = 'gopls',        -- goimport command, can be gopls[default] or goimport
   gofmt = 'gopls',           --gofmt cmd,
@@ -33,8 +34,8 @@ require('go').setup({
   -- true: will use go.nvim on_attach if true
   -- nil/false do nothing
   lsp_fmt_async = true,
-  diagnostic = {   -- set diagnostic to false to disable vim.diagnostic setup
-    hdlr = true,   -- hook lsp diag handler
+  diagnostic = { -- set diagnostic to false to disable vim.diagnostic setup
+    hdlr = true, -- hook lsp diag handler
     underline = false,
     -- virtual text setup
     virtual_text = { space = 4, prefix = '■' },
@@ -46,7 +47,7 @@ require('go').setup({
   lsp_inlay_hints = {
     enable = true,
     -- Only show inlay hints for the current line
-    only_current_line = false,
+    only_current_line = true,
     -- Event which triggers a refersh of the inlay hints.
     -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
     -- not that this may cause higher CPU usage.
@@ -73,18 +74,18 @@ require('go').setup({
     highlight = "Comment",
   },
 
-  luasnip = true,                                      -- set true to enable included luasnip
-  gopls_remote_auto = true,                             -- add -remote=auto to gopls
+  luasnip = true,                                                          -- set true to enable included luasnip
+  gopls_remote_auto = true,                                                -- add -remote=auto to gopls
   gopls_cmd = { vim.env.GOBIN .. "/gopls", "-logfile", "/tmp/gopls.log" }, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
-  fillstruct = 'gopls',                                 -- can be nil (use fillstruct, slower) and gopls
+  fillstruct = 'gopls',                                                    -- can be nil (use fillstruct, slower) and gopls
 
-  dap_debug = true,                                     -- set to false to disable dap
+  dap_debug = true,                                                        -- set to false to disable dap
   --float term recommand if you use richgo/ginkgo with terminal color
-  dap_debug_keymap = true,                              -- set keymaps for debugger
-  dap_debug_gui = true,                                 -- set to tru to enable dap gui, highly recommand
-  dap_debug_vt = true,                                  -- set to true to enable dap virtual text
+  dap_debug_keymap = true,                                                 -- set keymaps for debugger
+  dap_debug_gui = true,                                                    -- set to tru to enable dap gui, highly recommand
+  dap_debug_vt = true,                                                     -- set to true to enable dap virtual text
   dap_retries = 20,
-  dap_timeout = 15,                                     --  see dap option initialize_timeout_sec = 15,
+  dap_timeout = 15,                                                        --  see dap option initialize_timeout_sec = 15,
   dap_port = 38697,
 
 
@@ -104,18 +105,18 @@ local function setTimeout(callback, ms)
 end
 
 -- Format/GoImport on save
--- local format_sync_grp = vim.api.nvim_create_augroup("GoImport", {})
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   pattern = "*.go",
---   callback = function()
---     -- local promise = require('promise')
---     -- promise(function(resolve, reject)
---     require('go.format').goimport()
---     --
---     -- vim.lsp.buf.format { async = true }
---   end,
---   group = format_sync_grp,
--- })
+local format_sync_grp = vim.api.nvim_create_augroup("GoImport", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+    -- local promise = require('promise')
+    -- promise(function(resolve, reject)
+    require('go.format').goimport()
+    --
+    -- vim.lsp.buf.format { async = true }
+  end,
+  group = format_sync_grp,
+})
 
 -- local lsp_installer_servers = require'nvim-lsp-installer.servers'
 -- local server_available, requested_server = lsp_installer_servers.get_server("gopls")

@@ -90,3 +90,4 @@ set_map('<F6>', [[
 ]])
 
 set_map('<F9>', ":set spell!<CR>")
+set_nmap('<F3>', [[ :setlocal relativenumber! <CR> ]])

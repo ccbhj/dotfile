@@ -127,7 +127,6 @@ M.handlers = {
 
 function M.on_attach(client, bufnr)
   local opts = { noremap = true, silent = true }
-
   vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
   vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
@@ -216,5 +215,17 @@ require("lspconfig")["racket_langserver"].setup {
   flags = M.lsp_flags,
   cmd = { "racket", "--lib", "racket-langserver" },
 }
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    vim.defer_fn(function()
+      local bufname = vim.api.nvim_buf_get_name(ev.buf)
+      if (bufname:match("conjure[-]log[-]%d+.rkt$")) then
+        vim.lsp.buf_detach_client(ev.buf, ev.data.client_id)
+        return
+      end
+    end, 100)
+  end
+})
 
 return M

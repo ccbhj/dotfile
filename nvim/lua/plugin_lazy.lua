@@ -93,8 +93,11 @@ local plugins = {
 
   'ray-x/lsp_signature.nvim',
   'BurntSushi/ripgrep',
-  'nvim-lua/plenary.nvim',
-  'nvim-telescope/telescope.nvim',
+  {
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.5',
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
   {
     "nvim-telescope/telescope-file-browser.nvim",
     dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
@@ -110,7 +113,11 @@ local plugins = {
   'kyazdani42/nvim-web-devicons',
   'mortepau/codicons.nvim',
   'MattesGroeger/vim-bookmarks',
-  'akinsho/toggleterm.nvim',
+  -- 'akinsho/toggleterm.nvim',
+  {
+    '2kabhishek/termim.nvim',
+    cmd = { 'Fterm', 'FTerm', 'Sterm', 'STerm', 'Vterm', 'VTerm' },
+  },
   'folke/twilight.nvim',
 
   'sindrets/diffview.nvim',
@@ -248,6 +255,11 @@ local plugins = {
   },
   { "PaterJason/cmp-conjure", ft = { "racket" } },
   { "Olical/conjure" },
+
+  -- Lua
+  {
+    "folke/zen-mode.nvim",
+  },
 }
 
 local opts = {
