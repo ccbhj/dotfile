@@ -74,8 +74,8 @@ require('go').setup({
     highlight = "Comment",
   },
 
-  luasnip = true,                                                          -- set true to enable included luasnip
-  gopls_remote_auto = true,                                                -- add -remote=auto to gopls
+  luasnip = true,                                      -- set true to enable included luasnip
+  gopls_remote_auto = false,                             -- add -remote=auto to gopls
   gopls_cmd = { vim.env.GOBIN .. "/gopls", "-logfile", "/tmp/gopls.log" }, -- if you need to specify gopls path and cmd, e.g {"/home/user/lsp/gopls", "-logfile","/var/log/gopls.log" }
   fillstruct = 'gopls',                                                    -- can be nil (use fillstruct, slower) and gopls
 
