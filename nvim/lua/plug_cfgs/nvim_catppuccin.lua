@@ -34,15 +34,38 @@ catppuccin.setup({
     operators = {},
   },
   custom_highlights = function(colors)
+    local u = require("catppuccin.utils.colors")
     return {
+      CursorColumn = {
+        bg = u.darken(colors.surface0, 0.64, colors.base),
+      },
       -- Comment = { fg = colors.flamingo },
-      TabLineSel = { bg = colors.pink },
-      CmpBorder = { fg = colors.surface2 },
-      Pmenu = { bg = colors.base },
+      TabLineSel   = { bg = colors.pink },
+      CmpBorder    = { fg = colors.surface2 },
+      Pmenu        = { bg = colors.base },
     }
   end,
   integrations = {
-    native_lsp = {
+    cmp                = true,
+    gitsigns           = true,
+    nvimtree           = true,
+    telescope          = {
+      enabled = true,
+      -- style = "nvchad"
+    },
+    indent_blankline   = true,
+    bufferline         = true,
+    markdown           = true,
+    noice              = true,
+    mason              = true,
+    flash              = true,
+    treesitter_context = true,
+    treesitter         = true,
+    notify             = true,
+    symbols_outline    = true,
+    dashboard = true,
+
+    native_lsp         = {
       enabled = true,
       virtual_text = {
         errors = { "italic" },
@@ -56,28 +79,6 @@ catppuccin.setup({
         warnings = { "underline" },
         information = { "underline" },
       },
-    },
-    lsp_trouble = false,
-    integrations = {
-      cmp                = true,
-      gitsigns           = true,
-      nvimtree           = true,
-      telescope          = {
-        enabled = true,
-        -- style = "nvchad"
-      },
-      indent_blankline   = true,
-      bufferline         = true,
-      markdown           = true,
-      Special            = true,
-      noice              = true,
-      mason              = true,
-      flash              = true,
-      treesitter_context = true,
-      treesitter         = true,
-      notify             = true,
-      symbols_outline    = true,
-
     },
   }
 })

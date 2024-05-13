@@ -1,6 +1,9 @@
 eval "$(zoxide init zsh)"
-# . /usr/local/opt/asdf/libexec/asdf.sh
-. /opt/asdf-vm/asdf.sh
+eval "$(fzf --zsh)"
+
+. /usr/local/opt/asdf/libexec/asdf.sh
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+# . /opt/asdf-vm/asdf.sh
 eval "$(atuin init zsh --disable-up-arrow)"
 
-./colorscript -r
+# ${HOME}/dotfile/zsh/colorscript -r

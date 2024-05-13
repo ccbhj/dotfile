@@ -8,6 +8,7 @@ require("plugin_lazy")
 
 require("plug_cfgs.neodev")
 require("plug_cfgs.nvim_catppuccin")
+-- require("plug_cfgs.tokyonight")
 -- require("plug_cfgs.nvlime")
 -- plugin config
 require("plug_cfgs.nvim_pair")
@@ -16,7 +17,7 @@ require("plug_cfgs.lualine")
 require("plug_cfgs.nvim_autopairs")
 require("plug_cfgs.bufferline")
 require("plug_cfgs.indent_blankline")
---  require("plug_cfgs.toggle_term")
+require("plug_cfgs.toggle_term")
 
 -- require("plug_cfgs.nvim_conjure")
 require("plug_cfgs.nvim-tree")
@@ -54,3 +55,6 @@ require("plug_cfgs.flash")
 require("plug_cfgs.notify")
 require("plug_cfgs.zen")
 require("plug_cfgs.noice")
+
+-- require("plug_cfgs.startup")
+require("plug_cfgs.dashboard")

@@ -1,5 +1,3 @@
-
-
 -----------------------------------------providerSelector-------------------------------------------
 
 ------------------------------------------enhanceAction---------------------------------------------
@@ -7,11 +5,11 @@ local function peekOrHover()
   local winid = require('ufo').peekFoldedLinesUnderCursor()
   if winid then
     local bufnr = vim.api.nvim_win_get_buf(winid)
-    local keys = {'a', 'i', 'o', 'A', 'I', 'O', 'gd', 'gr'}
+    local keys = { 'a', 'i', 'o', 'A', 'I', 'O', 'gd', 'gr' }
     for _, k in ipairs(keys) do
       -- Add a prefix key to fire `trace` action,
       -- if Neovim is 0.8.0 before, remap yourself
-      vim.keymap.set('n', k, '<CR>' .. k, {noremap = false, buffer = bufnr})
+      vim.keymap.set('n', k, '<CR>' .. k, { noremap = false, buffer = bufnr })
     end
   else
     -- coc.nvim
@@ -62,7 +60,7 @@ local virtTextHandler = function(virtText, lnum, endLnum, width, truncate)
     else
       chunkText = truncate(chunkText, targetWidth - curWidth)
       local hlGroup = chunk[2]
-      table.insert(newVirtText, {chunkText, hlGroup})
+      table.insert(newVirtText, { chunkText, hlGroup })
       chunkWidth = vim.fn.strdisplaywidth(chunkText)
       -- str width returned from truncate() may less than 2nd argument, need padding
       if curWidth + chunkWidth < targetWidth then
@@ -72,7 +70,7 @@ local virtTextHandler = function(virtText, lnum, endLnum, width, truncate)
     end
     curWidth = curWidth + chunkWidth
   end
-  table.insert(newVirtText, {suffix, 'MoreMsg'})
+  table.insert(newVirtText, { suffix, 'MoreMsg' })
   return newVirtText
 end
 
@@ -126,10 +124,10 @@ vim.o.foldenable = true
 
 require('ufo').setup({
   open_fold_hl_timeout = 150,
-  close_fold_kinds = {'imports', 'comment'},
+  close_fold_kinds = { 'imports', 'comment' },
   preview = {
     win_config = {
-      border = {'', '─', '', '', '', '─', '', ''},
+      border = { '', '─', '', '', '', '─', '', '' },
       winhighlight = 'Normal:Folded',
       winblend = 0
     },
@@ -142,7 +140,8 @@ require('ufo').setup({
   },
   fold_virt_text_handler = virtTextHandler,
   provider_selector = function(bufnr, filetype, buftype)
-    return customizeSelector
+    -- return customizeSelector
+    return { 'treesitter', 'indent' }
   end
 })
 
@@ -151,9 +150,9 @@ vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
 vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
 vim.keymap.set('n', 'zK', function()
-    local winid = require('ufo').peekFoldedLinesUnderCursor()
-    if not winid then
-        -- choose one of coc.nvim and nvim lsp
-        vim.lsp.buf.hover()
-    end
+  local winid = require('ufo').peekFoldedLinesUnderCursor()
+  if not winid then
+    -- choose one of coc.nvim and nvim lsp
+    vim.lsp.buf.hover()
+  end
 end)

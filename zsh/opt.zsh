@@ -3,10 +3,8 @@
 #   └┘ ┴ ┴┴└─└─┘
 export VISUAL="${EDITOR}"
 export EDITOR='nvim'
-export TERM='alacritty'
-export TERMINAL='alacritty'
 export BROWSER='firefox'
-export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
+# export HISTORY_IGNORE="(ls|cd|pwd|exit|sudo reboot|history|cd -|cd ..)"
 
 if [ -d "$HOME/.local/bin" ] ;
   then PATH="$HOME/.local/bin:$PATH"
@@ -22,7 +20,7 @@ set -o vi
 setopt AUTOCD              # change directory just by typing its name
 setopt PROMPT_SUBST        # enable command substitution in prompt
 setopt MENU_COMPLETE       # Automatically highlight first element of completion menu
-setopt LIST_PACKED		   # The completion menu takes less space.
+setopt LIST_PACKED		     # The completion menu takes less space.
 setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
 setopt HIST_IGNORE_DUPS	   # Do not write events to history that are duplicates of previous events
 setopt HIST_FIND_NO_DUPS   # When searching history don't display results already cycled through twice
@@ -40,9 +38,3 @@ function xterm_title_preexec () {
 	print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
 	[[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
 }
-
-# if [[ "$TERM" == (kitty*|alacritty*|termite*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
-# 	add-zsh-hook -Uz precmd xterm_title_precmd
-# 	add-zsh-hook -Uz preexec xterm_title_preexec
-# fi
-# 

@@ -1,8 +1,8 @@
 alias vim="nvim"
 # alias pc="pbcopy"
 # alias pp="pbpaste"
-alias pc="wl-copy"
-alias pp="wl-paste"
+alias pc="pbcopy"
+alias pp="pbpaste"
 alias pf="
 fzf --bind ctrl-y:preview-up,ctrl-e:preview-down \
 --bind ctrl-b:preview-page-up,ctrl-f:preview-page-down \
@@ -23,7 +23,7 @@ alias "gr"="git restore"
 alias "grs"="git restore --staged"
 alias "gps"="git push"
 alias "gpl"="git pull"
-alias "ls"="exa"
+alias "ls"="exa --icons"
 alias "hl"="highlight -O ansi"
 
 alias "smte"="smc -e test services enter "
@@ -50,18 +50,18 @@ alias "sb"="/Users/bingjia.chen/go/src/tools/build.py build"
 alias "gitui"="gitui -t frappe.ron"
 
 
-alias mirrors="sudo reflector --verbose --latest 5 --country 'United States' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
+# alias mirrors="sudo reflector --verbose --latest 5 --country 'United States' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
 
-alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-alias mantenimiento="yay -Sc && sudo pacman -Scc"
-alias purga="sudo pacman -Rns $(pacman -Qtdq) ; sudo fstrim -av"
-alias update="paru -Syu --nocombinedupgrade"
+# alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+# alias mantenimiento="yay -Sc && sudo pacman -Scc"
+# alias purga="sudo pacman -Rns $(pacman -Qtdq) ; sudo fstrim -av"
+# alias update="paru -Syu --nocombinedupgrade"
 
 alias vm-on="sudo systemctl start libvirtd.service"
 alias vm-off="sudo systemctl stop libvirtd.service"
 
 alias musica="ncmpcpp"
 
-alias ls='lsd -a --group-directories-first'
+# alias ls='lsd -a --group-directories-first'
 alias ll='lsd -la --group-directories-first'
 

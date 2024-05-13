@@ -1,3 +1,5 @@
+. /usr/local/opt/asdf/libexec/asdf.sh
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 export GO111MODULE="on"
 export GONOPROXY="git.garena.com"
 export GONOSUMDB="git.garena.com"
@@ -17,18 +19,19 @@ export PATH=$PATH:$GOROOT/bin
 export TMOUT=10000
 
 # macos
-# export PATH="/usr/local/Cellar/vim/bin:$PATH"
-# export PATH="/usr/local/Cellar/llvm/13.0.0_2/bin:$PATH"
-# export PATH="/usr/local/bin:$PATH"
-# export PATH="$PATH:/usr/local/mysql/bin:/usr/local/opt/rabbitmq/sbin"
-# export PATH="$PATH:/usr/local/opt/llvm/bin/"
-# export PATH="$PATH:/Users/bingjia.chen/.cargo/bin"
-# export PATH="$PATH:/usr/local/bin/"
-# export PATH="$PATH:/usr/local/opt/mysql@5.7/bin/"
-# export JAVA_HOME=/usr/local/Cellar/openjdk@11/11.0.10
-# export VCPKG_ROOT="$HOME/vcpkg"
-# export HOMEBREW_NO_AUTO_UPDATE=1
+#
+export PATH="/opt/local/bin:$PATH"
+export PATH="/usr/local/Cellar/vim/bin:$PATH"
+export PATH="/usr/local/Cellar/llvm/13.0.0_2/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="$PATH:/usr/local/mysql/bin:/usr/local/opt/rabbitmq/sbin"
+export PATH="$PATH:/usr/local/opt/llvm/bin/"
+export PATH="$PATH:/Users/bingjia.chen/.cargo/bin"
+export PATH="$PATH:/usr/local/bin/"
+export PATH="$PATH:/usr/local/opt/mysql@5.7/bin/"
+export JAVA_HOME=/usr/local/Cellar/openjdk@11/11.0.10
+export VCPKG_ROOT="$HOME/vcpkg"
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 export XDG_CONFIG_HOME=$HOME/.config
 export WLS="$GOSRC/wallet_server/"
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"

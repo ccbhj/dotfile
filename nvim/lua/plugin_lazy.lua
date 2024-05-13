@@ -13,11 +13,6 @@ vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
 
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000
-  },
   "folke/which-key.nvim",
   -- 'wbthomason/packer.nvim',
 
@@ -113,11 +108,11 @@ local plugins = {
   'kyazdani42/nvim-web-devicons',
   'mortepau/codicons.nvim',
   'MattesGroeger/vim-bookmarks',
-  -- 'akinsho/toggleterm.nvim',
-  {
-    '2kabhishek/termim.nvim',
-    cmd = { 'Fterm', 'FTerm', 'Sterm', 'STerm', 'Vterm', 'VTerm' },
-  },
+  'akinsho/toggleterm.nvim',
+  -- {
+  --   '2kabhishek/termim.nvim',
+  --   cmd = { 'Fterm', 'FTerm', 'Sterm', 'STerm', 'Vterm', 'VTerm' },
+  -- },
   'folke/twilight.nvim',
 
   'sindrets/diffview.nvim',
@@ -185,11 +180,27 @@ local plugins = {
   },
 
   {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000
+  },
+  {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     opts = {},
   },
+
+  {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+  },
+  -- {
+  --   "startup-nvim/startup.nvim",
+  --   requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+  -- },
 
   {
     'akinsho/bufferline.nvim',
