@@ -33,9 +33,9 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} 'ma=48;5;197;1'
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*:warnings' format "%B%F{red}No matches for:%f %F{magenta}%d%b"
 zstyle ':completion:*:descriptions' format '%F{yellow}[-- %d --]%f'
-# zstyle ':vcs_info:*' formats ' %B%s-[%F{magenta}%f %F{yellow}%b%f]-'
+zstyle ':vcs_info:*' formats ' %B%s-[%F{magenta}%f %F{yellow}%b%f]-'
 
-zstyle ':autocomplete:*' delay 0.2  # seconds (float)
+# zstyle ':autocomplete:*' delay 0.2  # seconds (float)
 zstyle ':autocomplete:*' ignored-input '..##'
 zstyle ':completion:*' list-prompt   ''
 zstyle ':completion:*' select-prompt ''
@@ -43,14 +43,3 @@ zstyle ':autocomplete:*' add-space \
   executables aliases functions builtins reserved-words commands
 
 source ~/.zsh/marlonrichert/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
-#  ┬ ┬┌─┐┬┌┬┐┬┌┐┌┌─┐  ┌┬┐┌─┐┌┬┐┌─┐
-#  │││├─┤│ │ │││││ ┬   │││ │ │ └─┐
-#  └┴┘┴ ┴┴ ┴ ┴┘└┘└─┘  ─┴┘└─┘ ┴ └─┘
-expand-or-complete-with-dots() {
-  echo -n "\e[31m…\e[0m"
-  zle expand-or-complete
-  zle redisplay
-}
-# zle -N expand-or-complete-with-dots
-# bindkey "^I" expand-or-complete-with-dots
