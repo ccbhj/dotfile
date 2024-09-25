@@ -6,7 +6,10 @@
 #  ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝      ╚═╝   
 #	gh0stzk - https://github.com/gh0stzk/dotfiles
 
-import = ["~/dotfile/alacritty/rice-colors.toml", "~/dotfile/alacritty/fonts.toml"]
+import = [
+  "~/dotfile/alacritty/rice-colors.toml",
+  "~/dotfile/alacritty/fonts.toml",
+]
 
 live_config_reload = true
 
@@ -32,7 +35,7 @@ opacity = 1.0
 dynamic_padding = true
 
 [window.padding]
-x = 15
+# x = 15
 y = 15
 
 [scrolling]
@@ -40,7 +43,9 @@ history = 10000
 multiplier = 3
 
 [shell]
-program = "/bin/zsh"
+# program = "/bin/zsh"
+program = "/opt/local/bin/fish"
+
 
 [[keyboard.bindings]]
 action = "Paste"

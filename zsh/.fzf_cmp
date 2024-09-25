@@ -1,34 +1,34 @@
-_fzf_complete_git() {
-    ARGS="$@"
-    if [[ $ARGS =~ 'git (checkout|merge)'* ]]; then
-      local branches
-      branches=$(git branch -vv --all)
-      _fzf_complete --reverse --height 80% \
-        --layout reverse --info inline --border \
-        --bind ctrl-y:preview-up,ctrl-e:preview-down \
-        --bind ctrl-b:preview-page-up,ctrl-f:preview-page-down \
-        --bind ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down \
-        --preview 'git --no-pager log --graph --decorate  {1}' -- "$@" < <(
-            echo $branches
-        )
-    elif [[ $ARGS == 'git log'* ]]; then
-      local commits=$(git log  --pretty=format:"%h (%an): %s")
-      _fzf_complete --reverse --height 80% \
-        --layout reverse --info inline --border \
-        --bind ctrl-y:preview-up,ctrl-e:preview-down \
-        --bind ctrl-b:preview-page-up,ctrl-f:preview-page-down \
-        --bind ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down \
-        --preview 'git diff --patch {1}' -- "$@" < <(
-            echo $commits
-        )
-    else
-        eval "zle ${fzf_default_completion:-expand-or-complete}"
-    fi
-}
-
-_fzf_complete_git_post() {
-    awk '{print $1}'
-}
+# _fzf_complete_git() {
+#     ARGS="$@"
+#     if [[ $ARGS =~ 'git (checkout|merge)'* ]]; then
+#       local branches
+#       branches=$(git branch -vv --all)
+#       _fzf_complete --reverse --height 80% \
+#         --layout reverse --info inline --border \
+#         --bind ctrl-y:preview-up,ctrl-e:preview-down \
+#         --bind ctrl-b:preview-page-up,ctrl-f:preview-page-down \
+#         --bind ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down \
+#         --preview 'git --no-pager log --graph --decorate  {1}' -- "$@" < <(
+#             echo $branches
+#         )
+#     elif [[ $ARGS == 'git log'* ]]; then
+#       local commits=$(git log  --pretty=format:"%h (%an): %s")
+#       _fzf_complete --reverse --height 80% \
+#         --layout reverse --info inline --border \
+#         --bind ctrl-y:preview-up,ctrl-e:preview-down \
+#         --bind ctrl-b:preview-page-up,ctrl-f:preview-page-down \
+#         --bind ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down \
+#         --preview 'git diff --patch {1}' -- "$@" < <(
+#             echo $commits
+#         )
+#     else
+#         eval "zle ${fzf_default_completion:-expand-or-complete}"
+#     fi
+# }
+# 
+# _fzf_complete_git_post() {
+#     awk '{print $1}'
+# }
 
 
 _fzf_complete_ps() {

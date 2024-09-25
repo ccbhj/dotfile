@@ -59,15 +59,15 @@ SAVEHIST=5000
 #  ┌─┐┌─┐┬ ┬  ┌─┐┌─┐┌─┐┬    ┌─┐┌─┐┌┬┐┬┌─┐┌┐┌┌─┐
 #  ┌─┘└─┐├─┤  │  │ ││ ││    │ │├─┘ │ ││ ││││└─┐
 #  └─┘└─┘┴ ┴  └─┘└─┘└─┘┴─┘  └─┘┴   ┴ ┴└─┘┘└┘└─┘
-setopt AUTOCD              # change directory just by typing its name
-setopt PROMPT_SUBST        # enable command substitution in prompt
-setopt MENU_COMPLETE       # Automatically highlight first element of completion menu
-setopt LIST_PACKED		   # The completion menu takes less space.
-setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
-setopt HIST_IGNORE_DUPS	   # Do not write events to history that are duplicates of previous events
-setopt HIST_FIND_NO_DUPS   # When searching history don't display results already cycled through twice
-setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
-
+# setopt AUTOCD              # change directory just by typing its name
+# setopt PROMPT_SUBST        # enable command substitution in prompt
+# setopt MENU_COMPLETE       # Automatically highlight first element of completion menu
+# setopt LIST_PACKED		   # The completion menu takes less space.
+# setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
+# setopt HIST_IGNORE_DUPS	   # Do not write events to history that are duplicates of previous events
+# setopt HIST_FIND_NO_DUPS   # When searching history don't display results already cycled through twice
+# setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
+#
 #  ┌┬┐┬ ┬┌─┐  ┌─┐┬─┐┌─┐┌┬┐┌─┐┌┬┐
 #   │ ├─┤├┤   ├─┘├┬┘│ ││││├─┘ │ 
 #   ┴ ┴ ┴└─┘  ┴  ┴└─└─┘┴ ┴┴   ┴
@@ -84,7 +84,7 @@ setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
 # pure theme
 fpath+=$HOME/.oh-my-zsh/themes/pure
 autoload -U promptinit; promptinit
-zstyle :prompt:pure:git:stash show yes
+# zstyle :prompt:pure:git:stash show yes
 prompt pure
 
 
@@ -92,34 +92,6 @@ prompt pure
 #  ┌─┐┬  ┬ ┬┌─┐┬┌┐┌┌─┐
 #  ├─┘│  │ ││ ┬││││└─┐
 #  ┴  ┴─┘└─┘└─┘┴┘└┘└─┘
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-#  ┌─┐┬ ┬┌─┐┌┐┌┌─┐┌─┐  ┌┬┐┌─┐┬─┐┌┬┐┬┌┐┌┌─┐┬  ┌─┐  ┌┬┐┬┌┬┐┬  ┌─┐
-#  │  ├─┤├─┤││││ ┬├┤    │ ├┤ ├┬┘│││││││├─┤│  └─┐   │ │ │ │  ├┤ 
-#  └─┘┴ ┴┴ ┴┘└┘└─┘└─┘   ┴ └─┘┴└─┴ ┴┴┘└┘┴ ┴┴─┘└─┘   ┴ ┴ ┴ ┴─┘└─┘
-function xterm_title_precmd () {
-	print -Pn -- '\e]2;%n@%m %~\a'
-	[[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
-}
-
-function xterm_title_preexec () {
-	print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
-	[[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
-}
-
-if [[ "$TERM" == (kitty*|alacritty*|termite*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
-	add-zsh-hook -Uz precmd xterm_title_precmd
-	add-zsh-hook -Uz preexec xterm_title_preexec
-fi
-
-#  ┌─┐┬  ┬┌─┐┌─┐
-#  ├─┤│  │├─┤└─┐
-#  ┴ ┴┴─┘┴┴ ┴└─┘
 alias mirrors="sudo reflector --verbose --latest 5 --country 'United States' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"
 
 alias grub-update="sudo grub-mkconfig -o /boot/grub/grub.cfg"

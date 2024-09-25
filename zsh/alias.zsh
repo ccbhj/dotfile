@@ -25,6 +25,10 @@ alias "gps"="git push"
 alias "gpl"="git pull"
 alias "ls"="exa --icons"
 alias "hl"="highlight -O ansi"
+alias ":q"="exit"
+alias ":wq"="exit"
+alias ":wqa"="exit"
+
 
 alias "smte"="smc -e test services enter "
 alias "smue"="smc -e uat services enter "
@@ -48,6 +52,7 @@ alias "rm"="rm -i"
 alias "cd"="z"
 alias "sb"="/Users/bingjia.chen/go/src/tools/build.py build"
 alias "gitui"="gitui -t frappe.ron"
+alias "dv"="! args=$@; shift $#; nvim -c \"DiffviewOpen $args\""
 
 
 # alias mirrors="sudo reflector --verbose --latest 5 --country 'United States' --age 6 --sort rate --save /etc/pacman.d/mirrorlist"

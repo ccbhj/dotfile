@@ -4,10 +4,103 @@ local is_git_project = function()
 end
 
 return {
+	{
+		"echasnovski/mini.align",
+		version = "*",
+		opts = {},
+		keys = {
+			{ "ga", mode = { "n", "v" } },
+			{ "gA", mode = { "n", "v" } },
+		},
+	},
+	{
+		"MeanderingProgrammer/markdown.nvim",
+		main = "render-markdown",
+		ft = { "markdown" },
+		opts = {},
+		name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim", "nvim-tree/nvim-web-devicons" }, -- if you use the mini.nvim suite
+	},
+	{ "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
+	{
+		"iamcco/markdown-preview.nvim",
+		build = "cd app && npm install",
+		ft = { "markdown" },
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		config = function()
+			vim.g.mkdp_browser = "firefox"
+		end,
+	},
+	-- {
+	--   "OXY2DEV/markview.nvim",
+	--   dependencies = {
+	--     -- You may not need this if you don't lazy load
+	--     -- Or if the parsers are in your $RUNTIMEPATH
+	--     "nvim-treesitter/nvim-treesitter",
+	--
+	--     "nvim-tree/nvim-web-devicons",
+	--   },
+	-- },
 
+	-- symbols-outline
+	{
+		"hedyhli/outline.nvim",
+		cmd = "Outline",
+		opts = {
+			width = 30,
+		},
+		keys = { { "<F8>", "<cmd>Outline<cr>", desc = "toggle outline" } },
+	},
+
+	{
+		"stevearc/profile.nvim",
+		enabled = os.getenv("NVIM_PROFILE") ~= nil,
+		keys = function()
+			local function toggle_profile()
+				local prof = require("profile")
+				if prof.is_recording() then
+					prof.stop()
+					vim.ui.input(
+						{ prompt = "Save profile to:", completion = "file", default = "profile.json" },
+						function(filename)
+							if filename then
+								prof.export(filename)
+								vim.notify(string.format("Wrote %s", filename))
+							end
+						end
+					)
+				else
+					prof.start("*")
+				end
+			end
+
+			return {
+				{ "<F2>", toggle_profile },
+			}
+		end,
+		init = function()
+			local should_profile = os.getenv("NVIM_PROFILE")
+			if should_profile then
+				require("profile").instrument_autocmds()
+				if should_profile:lower():match("^start") then
+					require("profile").start("*")
+				else
+					require("profile").instrument(should_profile:lower())
+				end
+			end
+		end,
+	},
+
+	-- {
+	-- 	"t-troebst/perfanno.nvim",
+	-- 	enable = true,
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		require("perfanno").setup({})
+	-- 	end,
+	-- },
 	-- { "pwntester/octo.nvim", opts = {}, cmd = "Octo" },
 	{ "folke/which-key.nvim", lazy = false },
-	{ "tpope/vim-fugitive", lazy = false },
 	{
 		"voldikss/vim-translator",
 		cmd = { "Translate", "TranslateH", "TranslateL", "TranslateW", "TranslateR", "TranslateX" },
@@ -111,7 +204,6 @@ return {
 	-- term
 	{
 		"akinsho/toggleterm.nvim",
-		lazy = false,
 		version = "*",
 		opts = {
 			open_mapping = [[<F5>]],
@@ -127,13 +219,32 @@ return {
 			persist_size = true,
 			direction = "float", -- 'vertical'| 'horizontal' | 'window' | 'float',
 		},
-		keys = {
-			{
-				"<leader>T",
-				"<cmd>ToggleTerm size=15 dir=. direction=horizontal<CR>",
-				desc = "open split terminal",
-			},
-		},
+		keys = function()
+			local Terminal = require("toggleterm.terminal").Terminal
+			local function _lazygit_toggle(term)
+				return function()
+					term:toggle()
+				end
+			end
+
+			return {
+				{
+					"<leader>G",
+					_lazygit_toggle(Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" })),
+					desc = "open lazygit in float window",
+				},
+				{
+					"<leader>g",
+					_lazygit_toggle(Terminal:new({ cmd = "lazygit", hidden = true, direction = "tab" })),
+					desc = "open lazygit in tab",
+				},
+				{
+					"<leader>T",
+					"<cmd>ToggleTerm size=15 dir=. direction=horizontal<CR>",
+					desc = "open split terminal",
+				},
+			}
+		end,
 
 		-- config = function(_, opts)
 		--   function _G.set_terminal_keymaps()
@@ -153,17 +264,22 @@ return {
 
 	-- git related
 	{
+		"tpope/vim-fugitive",
+		event = "BufReadPre",
+	},
+	{
 		"lewis6991/gitsigns.nvim",
-		lazy = false,
+		event = "BufReadPre",
 		-- cond = is_git_project,
 		main = "gitsigns",
+		-- enabled = false,
 		opts = {
 			signs_staged_enable = true,
 			auto_attach = true,
 			sign_priority = 6,
 			update_debounce = 100,
-			status_formatter = nil, -- Use default
-			max_file_length = 40000,
+			status_formatter = nil, -- Use dfault
+			max_file_length = 2000,
 			preview_config = {
 				-- Options passed to nvim_open_win
 				border = "single",
@@ -387,31 +503,56 @@ return {
 		},
 	},
 
+	-- {
+	-- 	"mhartington/formatter.nvim",
+	-- 	cmd = { "Format", "FormatWrite" },
+	-- 	opts = function()
+	-- 		return {
+	-- 			log = true,
+	-- 			filetype = {
+	-- 				sh = require("formatter.filetypes.sh").shfmt,
+	-- 				lua = require("formatter.filetypes.lua").stylua,
+	-- 				proto = require("formatter.filetypes.proto").buf_format,
+	-- 				toml = require("formatter.filetypes.toml").taplo,
+	-- 				go = {
+	-- 					require("formatter.filetypes.go").gofmt,
+	-- 					require("formatter.filetypes.go").goimports,
+	-- 				},
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- 	init = function()
+	-- 		local augroup = vim.api.nvim_create_augroup
+	-- 		local autocmd = vim.api.nvim_create_autocmd
+	-- 		augroup("__formatter__", { clear = true })
+	-- 		autocmd("BufWritePost", {
+	-- 			group = "__formatter__",
+	-- 			command = ":FormatWrite",
+	-- 		})
+	-- 	end,
+	-- },
+
 	{
-		"mhartington/formatter.nvim",
-		cmd = { "Format", "FormatWrite" },
-		opts = function()
-			return {
-				log = true,
-				filetype = {
-					sh = require("formatter.filetypes.sh").shfmt,
-					lua = require("formatter.filetypes.lua").stylua,
-					proto = require("formatter.filetypes.proto").buf_format,
-					toml = require("formatter.filetypes.toml").taplo,
-					go = {
-						require("formatter.filetypes.go").gofmt,
-						require("formatter.filetypes.go").goimports,
+		"nvim-orgmode/orgmode",
+		-- event = "VeryLazy",
+		lazy = false,
+		ft = { "org" },
+		config = function()
+			-- Setup orgmode
+			require("orgmode").setup({
+				org_agenda_files = { "~/org/note/*.org", "~/org/agenda/*.org", "~/org/capture/*.org" },
+				org_default_notes_file = "~/org/capture/refile.org",
+				win_split_mode = "split",
+				mappings = {
+					global = {
+						org_agenda = "<F10>",
+						org_capture = "<F11>",
 					},
 				},
-			}
-		end,
-		init = function()
-			local augroup = vim.api.nvim_create_augroup
-			local autocmd = vim.api.nvim_create_autocmd
-			augroup("__formatter__", { clear = true })
-			autocmd("BufWritePost", {
-				group = "__formatter__",
-				command = ":FormatWrite",
+
+				-- agenda
+				org_deadline_warning_days = 1,
+				org_todo_keywords = { "TODO(t)", "WAITING(w)", "DOING(i)", "|", "DONE(d)", "ICEBOX(x)" },
 			})
 		end,
 	},

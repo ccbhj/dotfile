@@ -4,11 +4,12 @@
 source ~/.zsh/znap/znap.zsh  # Start Znap
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#d8ddc7"
-# znap source zsh-users/zsh-completions
-znap source zsh-users/zsh-autosuggestions
+# znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
+znap source zsh-users/zsh-completions
+znap source zsh-users/zsh-completions
 znap prompt sindresorhus/pure
-znap source marlonrichert/zsh-autocomplete
+# znap source marlonrichert/zsh-autocomplete
 
 
 #  ┬  ┌─┐┌─┐┌┬┐  ┌─┐┌┐┌┌─┐┬┌┐┌┌─┐
@@ -22,10 +23,10 @@ znap source marlonrichert/zsh-autocomplete
 # 
 # compinit -C -d ~/.config/zsh/zcompdump
 
-autoload -Uz add-zsh-hook
+# autoload -Uz add-zsh-hook
 # autoload -Uz vcs_info
 # precmd () { vcs_info }
-_comp_options+=(globdots)
+# _comp_options+=(globdots)
 
 zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:*:*:*' menu select
@@ -36,10 +37,10 @@ zstyle ':completion:*:descriptions' format '%F{yellow}[-- %d --]%f'
 zstyle ':vcs_info:*' formats ' %B%s-[%F{magenta}%f %F{yellow}%b%f]-'
 
 # zstyle ':autocomplete:*' delay 0.2  # seconds (float)
-zstyle ':autocomplete:*' ignored-input '..##'
+# zstyle ':autocomplete:*' ignored-input '..##'
 zstyle ':completion:*' list-prompt   ''
 zstyle ':completion:*' select-prompt ''
-zstyle ':autocomplete:*' add-space \
-  executables aliases functions builtins reserved-words commands
+# zstyle ':autocomplete:*' add-space \
+#   executables aliases functions builtins reserved-words commands
 
-source ~/.zsh/marlonrichert/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# source ~/.zsh/marlonrichert/zsh-autocomplete/zsh-autocomplete.plugin.zsh

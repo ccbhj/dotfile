@@ -9,28 +9,29 @@ local get_cursor_opt = {
 
 return {
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
+    "nvim-telescope/telescope-fzf-native.nvim",
     build =
-    'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+    "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
   },
+
   {
     "nvim-telescope/telescope.nvim",
-    tag = '0.1.8',
     dependencies = {
       "folke/noice.nvim",
       "folke/which-key.nvim",
       "folke/flash.nvim",
       "nvim-lua/plenary.nvim",
       "BurntSushi/ripgrep",
+      "nvim-orgmode/telescope-orgmode.nvim",
       "nvim-telescope/telescope-fzf-native.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
       "nvim-telescope/telescope-project.nvim",
       "tom-anders/telescope-vim-bookmarks.nvim",
       "AckslD/nvim-neoclip.lua",
     },
-    opts = function()
+    config = function()
       local actions = require("telescope.actions")
-      local fb_actions = require "telescope".extensions.file_browser.actions
+      local fb_actions = require("telescope").extensions.file_browser.actions
 
       local function flash(prompt_bufnr)
         require("flash").jump({
@@ -51,7 +52,7 @@ return {
         })
       end
 
-      return {
+      require("telescope").setup({
         defaults = {
           layout_strategy = "horizontal",
           layout_config = {
@@ -86,29 +87,26 @@ return {
         extensions = {
           project = {
             base_dirs = {
-              "~/org/",
-              "~/c/",
               { "~/go/src/", max_depth = 1 },
             },
-            hidden_files = false, -- default: false
           },
-          file_browser = {
-            -- disables netrw and use telescope-file-browser in its place
-            hijack_netrw = true,
-            mappings = {},
+          orgmode = {
+            max_depth = 3,
           },
+          file_browser = {},
         },
-      }
-    end,
-    keys = function()
+      })
       require("telescope").load_extension("fzf")
-      require("telescope").load_extension("project")
       require("telescope").load_extension("file_browser")
       require("telescope").load_extension("vim_bookmarks")
+      require("telescope").load_extension("project")
       require("telescope").load_extension("noice")
-
+      require("telescope").load_extension("orgmode")
+    end,
+    keys = function()
       local builtin = require("telescope.builtin")
       local themes = require("telescope.themes")
+      local org = require("telescope").extensions.orgmode
       return {
         {
           "<space>p",
@@ -142,11 +140,6 @@ return {
           "<space>r",
           builtin.registers,
           desc = "list all the registers",
-        },
-        {
-          "<space>a",
-          ":lua require('telescope').extensions.vim_bookmarks.current_file() <cr>",
-          desc = "list bookmarks in current file",
         },
         {
           "<space>q",
@@ -300,6 +293,12 @@ return {
           "<space>o",
           builtin.lsp_outgoing_calls,
           desc = "Lists LSP outgoing calls for word under the cursor",
+        },
+
+        {
+          "<space>O",
+          org.search_headings,
+          desc = "list all orgmode headings",
         },
       }
     end,

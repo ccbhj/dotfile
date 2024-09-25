@@ -24,6 +24,7 @@ end
 -- set.completeopt = "menuone,noselect,noinsert"
 set.number = true
 set.relativenumber = true
+set.signcolumn = "auto"
 set.cursorline = true
 set.cursorline = true
 set.cursorcolumn = true
@@ -53,10 +54,3 @@ set.timeout = true
 set.ttimeout = true
 set.timeoutlen = 500
 set.ttimeoutlen = 10
-
-
--- for ufo
-set.foldcolumn = '1' -- '0' is not bad
-set.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-set.foldlevelstart = 99
-set.foldenable = true
