@@ -8,9 +8,15 @@ builtin_box_drawing = true
 # italic = { family = "IntoneMono Nerd Font", style = "Italic" }
 # bold_italic = { family = "IntoneMono Nerd Font", style = "Bold Italic" }
 
-normal = { family = "Lilex Nerd Font", style = "Regular" }
+normal = { family = "BlexMono Nerd Font", style = "Regular" } 
+# normal = { family = "Lilex Nerd Font", style = "Regular" }
 # normal = { family = "FiraCode Nerd Font", style = "Regular" }
 # normal = { family = "SauceCodePro Nerd Font Mono", style = "Regular" }
-bold = { family = "Lilex Nerd Font", style = "Bold" }
-italic = { family = "Lilex Nerd Font", style = "Italic" }
-bold_italic = { family = "Lilex Nerd Font", style = "Bold Italic" }
+
+bold = { family = "BlexMono Nerd Font", style = "Bold" } 
+
+# italic = { family = "Lilex Nerd Font", style = "Italic" }
+italic = { family = "BlexMono Nerd Font", style = "Italic" } 
+
+# bold_italic = { family = "Lilex Nerd Font", style = "Bold Italic" }
+bold_italic = { family = "BlexMono Nerd Font", style = "Bold Italic" }

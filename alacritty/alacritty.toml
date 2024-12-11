@@ -9,6 +9,7 @@
 import = [
   "~/dotfile/alacritty/rice-colors.toml",
   "~/dotfile/alacritty/fonts.toml",
+# "~/dotfile/alacritty/everforest/theme.toml",
 ]
 
 live_config_reload = true
@@ -44,7 +45,7 @@ multiplier = 3
 
 [shell]
 # program = "/bin/zsh"
-program = "/opt/local/bin/fish"
+program = "/usr/local/bin/fish"
 
 
 [[keyboard.bindings]]

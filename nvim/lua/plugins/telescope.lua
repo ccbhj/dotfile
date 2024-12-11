@@ -28,6 +28,7 @@ return {
       "nvim-telescope/telescope-project.nvim",
       "tom-anders/telescope-vim-bookmarks.nvim",
       "AckslD/nvim-neoclip.lua",
+      'nvim-telescope/telescope-ui-select.nvim'
     },
     config = function()
       local actions = require("telescope.actions")
@@ -94,6 +95,9 @@ return {
             max_depth = 3,
           },
           file_browser = {},
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown {}
+          },
         },
       })
       require("telescope").load_extension("fzf")
@@ -102,6 +106,7 @@ return {
       require("telescope").load_extension("project")
       require("telescope").load_extension("noice")
       require("telescope").load_extension("orgmode")
+      require("telescope").load_extension("ui-select")
     end,
     keys = function()
       local builtin = require("telescope.builtin")
