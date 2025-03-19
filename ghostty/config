@@ -1,15 +1,18 @@
 font-size = 16
 font-family = "Lilex Nerd Font"
+# font-family = "BlexMono Nerd Font Mono"
 font-style = "Regular"
-font-family-bold = "Lilex Nerd Font"
+font-family-bold = "BlexMono Nerd Font Mono Bold"
 font-style-bold = "Bold"
-font-family-italic = "BlexMono Nerd Font Italic"
-font-family-bold-italic = "BlexMono Nerd Font Bold Italic"
-
+font-family-italic = "BlexMono Nerd Font Mono Italic"
+font-family-bold-italic = "BlexMono Nerd Font Mono Bold Italic"
 font-thicken = true
+# font-feature = "ss01"
 
+window-decoration = false
 theme = "Ayu Mirage"
 cursor-style = "block"
 
 command = "/usr/local/bin/fish" 
-shell-integration = "fish"
+shell-integration = "detect"
+shell-integration-features = "no-cursor"
