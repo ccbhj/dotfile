@@ -218,6 +218,7 @@ return {
       insert_mappings = true, -- whether or not the open mapping applies in insert mode
       persist_size = true,
       direction = "float",    -- 'vertical'| 'horizontal' | 'window' | 'float',
+      shell = "/opt/homebrew/bin/fish",
     },
     keys = function()
       local Terminal = require("toggleterm.terminal").Terminal
@@ -594,6 +595,5 @@ return {
       { "<leader>.", function() require("snacks").scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>S", function() require("snacks").select() end,  desc = "Select Scratch Buffer" },
     },
-  }
-
+  },
 }

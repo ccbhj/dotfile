@@ -1,9 +1,29 @@
 local CMP_PLUGIN = "blink" -- "cmp" | "coq" | "blink"
-local diagnositc_signs = { Error = "", Warn = "", Hint = "", Info = "" }
-for type, icon in pairs(diagnositc_signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
+
+local diagnostics_cfg = {
+  underline = false,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.INFO] = "",
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    }
+  }
+}
+vim.diagnostic.config(diagnostics_cfg)
 
 local function get_lsp_config()
   local lsp_config = {
@@ -256,7 +276,7 @@ return {
           { name = "nvim_lsp_document_symbol" },
         },
       })
-
+      --
       -- `:` cmdline setup.
       --   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
       cmp.setup.cmdline(":", {
@@ -416,36 +436,28 @@ return {
         ["<C-l>"] = { 'snippet_forward' },
         ["<C-h>"] = { 'snippet_backward' },
       },
-      highlight = {
+
+      appearance = {
         use_nvim_cmp_as_default = true,
+        -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = 'mono'
       },
-      -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-      -- adjusts spacing to ensure icons are aligned
-      nerd_font_variant = "normal",
       -- experimental auto-brackets support
       -- accept = { auto_brackets = { enabled = true } }
-      trigger = {
-        completion = {
-          -- regex used to get the text when fuzzy matching
-          -- changing this may break some sources, so please report if you run into issues
-          -- todo: shouldnt this also affect the accept command? should this also be per language?
-          keyword_regex = "[%w_\\-]",
-          -- LSPs can indicate when to show the completion window via trigger characters
-          -- however, some LSPs (*cough* tsserver *cough*) return characters that would essentially
-          -- always show the window. We block these by default
-          blocked_trigger_characters = { " ", "\n", "\t" },
-          -- when true, will show the completion window when the cursor comes after a trigger character when entering insert mode
+      completion = {
+        trigger = {
+          show_on_blocked_trigger_characters = { " ", "\n", "\t" },
           show_on_insert_on_trigger_character = true,
         },
-        signature_help = {
-          enabled = false,
-          show_on_insert_on_trigger_character = false,
-        },
-      },
-
-      windows = {
         documentation = {
           auto_show = true,
+        },
+      },
+      cmdline = {
+        completion = {
+          menu = { auto_show = false },
+          ghost_text = { enabled = false },
         },
       },
     },
@@ -500,6 +512,63 @@ return {
 
         cmd = { "racket", "--lib", "racket-langserver" },
       })
+      require("lspconfig")["elixirls"].setup({
+        capabilities = cfg.capabilities,
+        handlers = cfg.handlers,
+        on_attach = cfg.on_attach,
+        flags = cfg.lsp_flags,
+        cmd = { "/usr/local/bin/elixir-ls" },
+        setttings = {
+          dialyzerEnabled = true,
+          fetchDeps = false,
+          enableTestLenses = false,
+          suggestSpecs = false,
+        },
+      })
+
+      vim.lsp.config("ruff", {
+        capabilities = cfg.capabilities,
+        handlers = cfg.handlers,
+        on_attach = cfg.on_attach,
+        flags = cfg.lsp_flags,
+        init_options = {
+          settings = {
+            -- Any extra CLI arguments for `ruff` go here.
+            args = {},
+          },
+        },
+      })
+
+      vim.lsp.config("basedpyright", {
+        capabilities = cfg.capabilities,
+        handlers = cfg.handlers,
+        on_attach = cfg.on_attach,
+        flags = cfg.lsp_flags,
+        init_options = {
+          settings = {
+            disableLanguageServices = true,
+            analysis = {
+              -- Ignore all files for analysis to exclusively use Ruff for linting
+              ignore = { '*' },
+            },
+          },
+        },
+      })
+
+
+      require("lspconfig")["lua_ls"].setup({
+        capabilities = cfg.capabilities,
+        handlers = cfg.handlers,
+        on_attach = cfg.on_attach,
+        flags = cfg.lsp_flags,
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+            },
+          },
+        },
+      })
 
       -- require("lspconfig")["scheme_langserver"].setup({
       -- require("lspconfig")["scheme_langserver"].setup({
@@ -523,56 +592,14 @@ return {
       -- 	},
       -- })
       --
-      require("mason-lspconfig").setup_handlers({
-        function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup(cfg)
-        end,
-        ["elixirls"] = function()
-          require("lspconfig")["elixirls"].setup({
-            capabilities = cfg.capabilities,
-            handlers = cfg.handlers,
-            on_attach = cfg.on_attach,
-            flags = cfg.lsp_flags,
-            cmd = { "/usr/local/bin/elixir-ls" },
-            setttings = {
-              dialyzerEnabled = true,
-              fetchDeps = false,
-              enableTestLenses = false,
-              suggestSpecs = false,
-            },
-          })
-        end,
-
-        ["ruff_lsp"] = function()
-          require("lspconfig").ruff_lsp.setup({
-            capabilities = cfg.capabilities,
-            handlers = cfg.handlers,
-            on_attach = cfg.on_attach,
-            flags = cfg.lsp_flags,
-            init_options = {
-              settings = {
-                -- Any extra CLI arguments for `ruff` go here.
-                args = {},
-              },
-            },
-          })
-        end,
-
-        ["lua_ls"] = function()
-          require("lspconfig")["lua_ls"].setup({
-            capabilities = cfg.capabilities,
-            handlers = cfg.handlers,
-            on_attach = cfg.on_attach,
-            flags = cfg.lsp_flags,
-            settings = {
-              Lua = {
-                completion = {
-                  callSnippet = "Replace",
-                },
-              },
-            },
-          })
-        end,
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          -- "gopls",
+          "ruff",
+          "elixirls",
+        },
+        automatic_enable = true,
       })
     end,
   },

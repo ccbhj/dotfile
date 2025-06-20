@@ -119,18 +119,6 @@ return {
     end,
   },
   {
-    "p00f/nvim-ts-rainbow",
-    enabled = true,
-    event = "VeryLazy",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      local opts = { rainbow = ts_opts.rainbow }
-      require("nvim-treesitter.configs").setup(opts)
-    end,
-  },
-  {
     "nvim-treesitter/nvim-treesitter-refactor",
     enabled = true,
     event = "VeryLazy",
