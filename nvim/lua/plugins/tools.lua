@@ -129,7 +129,7 @@ return {
     },
   },
   {
-    "kyazdani42/nvim-tree.lua",
+    "nvim-tree/nvim-tree.lua",
     opts = function(p, opts)
       local function my_on_attach(bufnr)
         local api = require("nvim-tree.api")
@@ -206,7 +206,7 @@ return {
     "akinsho/toggleterm.nvim",
     version = "*",
     opts = {
-      open_mapping = [[<F5>]],
+      open_mapping = [[<F6>]],
       size = function(term)
         if term.direction == "horizontal" then
           return 15
@@ -218,7 +218,7 @@ return {
       insert_mappings = true, -- whether or not the open mapping applies in insert mode
       persist_size = true,
       direction = "float",    -- 'vertical'| 'horizontal' | 'window' | 'float',
-      shell = "/opt/homebrew/bin/fish",
+      shell = vim.fn.exepath("fish") ~= "" and vim.fn.exepath("fish") or vim.o.shell,
     },
     keys = function()
       local Terminal = require("toggleterm.terminal").Terminal

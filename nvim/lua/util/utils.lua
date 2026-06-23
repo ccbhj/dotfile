@@ -1,4 +1,4 @@
-local uv = vim.loop
+local uv = vim.uv
 local utils = {}
 --- return the most recently files list
 function utils.get_mru_list()

@@ -7,54 +7,25 @@
 -- vim.keymap.set({ "n", "x" }, "<C-c>", "<cmd>normal! ciw<cr>a")
 
 
-local set_nmap = function(key, cmd)
-  vim.api.nvim_set_keymap(
-    'n',
-    key,
-    cmd,
-    { noremap = true, silent = true }
-  )
-end
-
-local set_imap = function(key, cmd)
-  vim.api.nvim_set_keymap(
-    'i',
-    key,
-    cmd,
-    { noremap = true, silent = true }
-  )
-end
-
-local set_map = function(key, cmd)
-  vim.api.nvim_set_keymap(
-    '',
-    key,
-    cmd,
-    {}
-  )
-end
-
-
 -- unmap the evil F1
-set_nmap("<F1>", ":echo<CR>")
-set_imap("<F1>", "<C-o>:echo<CR>")
--- <F5> to reload the config
-set_imap("<F5>", ":source $XDG_CONFIG_HOME/nvim/init.lua<cr>")
+vim.keymap.set("n", "<F1>", ":echo<CR>", { silent = true })
+vim.keymap.set("i", "<F1>", "<C-o>:echo<CR>", { silent = true })
+vim.keymap.set("i", "<leader>rr", ":source $XDG_CONFIG_HOME/nvim/init.lua<cr>", { silent = true })
 
 -- tab
-set_map("<C-t>n", ":tabnext<cr>")
-set_map("<C-t>p", ":tabprevious<cr>")
-set_map("<C-t>d", ":tabnew <cr>")
-set_map("<C-t>e", ":tabedit ")
-set_map("<C-t>c", ":tabclose<cr>")
+vim.keymap.set("n", "<C-t>n", ":tabnext<cr>", { silent = true })
+vim.keymap.set("n", "<C-t>p", ":tabprevious<cr>", { silent = true })
+vim.keymap.set("n", "<C-t>d", ":tabnew <cr>", { silent = true })
+vim.keymap.set("n", "<C-t>e", ":tabedit ", { silent = true })
+vim.keymap.set("n", "<C-t>c", ":tabclose<cr>", { silent = true })
 
 -- buffer
-set_map("vs", ":vs")
-set_map("hs", ":split")
-set_map("<C-h>", "<C-w>h")
-set_map("<C-j>", "<C-w>j")
-set_map("<C-k>", "<C-w>k")
-set_map("<C-l>", "<C-w>l")
+vim.keymap.set("n", "vs", ":vs", { silent = true })
+vim.keymap.set("n", "hs", ":split", { silent = true })
+vim.keymap.set("n", "<C-h>", "<C-w>h", { silent = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { silent = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { silent = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { silent = true })
 
 -- function _G.compile_and_run()
 --   local ft = vim.bo.filetype
@@ -80,5 +51,5 @@ set_map("<C-l>", "<C-w>l")
 -- :lua require('noice').redirect(compile_and_run, { view = "split" } ) <CR>
 -- ]])
 
-set_map('<F9>', ":set spell!<CR>")
-set_nmap('<F3>', [[ :setlocal relativenumber! <CR> ]])
+vim.keymap.set("n", "<F9>", ":set spell!<CR>", { silent = true })
+vim.keymap.set("n", "<F3>", ":setlocal relativenumber!<CR>", { silent = true })

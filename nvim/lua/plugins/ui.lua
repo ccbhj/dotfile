@@ -1,5 +1,5 @@
 local if_nil = vim.F.if_nil
-local api, keymap, uv = vim.api, vim.keymap, vim.loop
+local api, keymap, uv = vim.api, vim.keymap, vim.uv
 local utils = require("util.utils")
 
 local leader = "SPC"
@@ -255,7 +255,7 @@ return {
     "nvim-lualine/lualine.nvim",
     lazy = false,
     dependencies = {
-      "kyazdani42/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons",
       "meuter/lualine-so-fancy.nvim",
     },
     opts = function(_, opts)
@@ -343,7 +343,7 @@ return {
     keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
   },
 
-  "kyazdani42/nvim-web-devicons",
+  "nvim-tree/nvim-web-devicons",
   "mortepau/codicons.nvim",
   "folke/twilight.nvim",
 

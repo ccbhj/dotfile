@@ -18,7 +18,9 @@ vim.g.lazyvim_python_lsp = "basedpyright"
 vim.g.lazyvim_python_ruff = "ruff"
 
 if vim.fn.has("win32") == 1 then
-	LazyVim.terminal.setup("pwsh")
+  pcall(function()
+    LazyVim.terminal.setup("pwsh")
+  end)
 end
 
 -- set.completeopt = "menuone,noselect,noinsert"
@@ -32,6 +34,9 @@ set.cindent = true
 set.shiftwidth = 2
 set.softtabstop = 2
 set.tabstop = 2
+set.autoindent = false       -- Copy indent from previous line
+set.smartindent = false     -- Smarter autoindent for C-like languages (can be useful but sometimes conflicts with Python's specific indent rules)
+
 vim.opt.iskeyword:append({ "_", "$", "@", "#", "-" })
 
 set.incsearch = true -- 输入搜索内容时就显示搜索结果
